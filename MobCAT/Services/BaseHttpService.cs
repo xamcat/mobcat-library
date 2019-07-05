@@ -44,7 +44,7 @@ namespace Microsoft.MobCAT.Services
             }
         }
 
-        protected virtual Policy GetRetryPolicy()
+        protected virtual AsyncPolicy GetRetryPolicy()
         {
             return Policy
                 .Handle<Exception>()
