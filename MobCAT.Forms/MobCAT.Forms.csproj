@@ -8,7 +8,8 @@
     <PackageReference Include="Xamarin.Forms" Version="4.1.0.555618" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
+    <PackageReference Include="Xamarin.Forms" Version="4.0.0.346134-pre9" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MobCAT\MobCAT.csproj" />
