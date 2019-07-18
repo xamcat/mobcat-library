@@ -142,7 +142,13 @@ stages:
       inputs:
         buildType: 'current'
         downloadType: 'single'
-        itemPattern: 'drop_nuget'
+        downloadPath: '$(System.ArtifactsDirectory)'
+
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop_nuget'
         downloadPath: '$(System.ArtifactsDirectory)'
 
     - task: GitHubRelease@0
