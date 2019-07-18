@@ -103,7 +103,7 @@ stages:
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(Build.SourcesDirectory)'
-        Contents: '**\bin\$(BuildConfiguration)\**\*.nupkg'
+        Contents: '**\*.nupkg'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - task: PublishBuildArtifacts@1
@@ -138,6 +138,13 @@ stages:
     steps:
     - script: echo Publish Nuget Github the code!
 
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        itemPattern: 'drop_nuget'
+        downloadPath: '$(System.ArtifactsDirectory)'
+
     - task: GitHubRelease@0
       inputs:
         gitHubConnection: 'GitHub connection 6'
@@ -145,9 +152,10 @@ stages:
         action: 'create'
         target: '$(Build.SourceVersion)'
         tagSource: 'manual'
-        tag: 'v$(Build.BuildNumber)'
-        title: 'v$(Build.BuildNumber)'
+        tag: 'v$VERSION'
+        title: 'v$VERSION'
         releaseNotesSource: 'input'
         releaseNotes: 'Test Release Notes'
         assets: '$(System.DefaultWorkingDirectory)/**/drop_nuget/*.nupkg'
         isDraft: true
+      enabled: false
