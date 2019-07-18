@@ -9,6 +9,7 @@ stages:
     steps:
     - script: echo Building!
     - task: Bash@3
+      displayName: 'Version Script'
       inputs:
         targetType: 'inline'
         script: |
@@ -137,6 +138,7 @@ stages:
 
     steps:
     - script: echo Publish Nuget Github the code!
+    - script: echo 'VERSION ' $VERSION
 
     - task: DownloadBuildArtifacts@0
       inputs:
@@ -144,6 +146,8 @@ stages:
         downloadType: 'single'
         artifactName: 'drop_nuget'
         downloadPath: '$(System.ArtifactsDirectory)'
+
+    
 
     - task: GitHubRelease@0
       inputs:
@@ -156,5 +160,5 @@ stages:
         title: 'v$VERSION'
         releaseNotesSource: 'input'
         releaseNotes: 'Test Release Notes'
-        assets: '$(System.DefaultWorkingDirectory)/**/drop_nuget/*.nupkg'
+        assets: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
         isDraft: true
