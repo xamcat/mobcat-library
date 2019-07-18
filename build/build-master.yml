@@ -138,8 +138,6 @@ stages:
 
     steps:
     - script: echo Publish Nuget Github the code!
-    - script: echo 'VERSION ' $Version
-
     - task: Bash@3
       displayName: 'Version Script'
       inputs:
@@ -171,8 +169,8 @@ stages:
         action: 'create'
         target: '$(Build.SourceVersion)'
         tagSource: 'manual'
-        tag: 'v$VERSION'
-        title: 'v$VERSION'
+        tag: 'v($VERSION)'
+        title: 'v($VERSION)'
         releaseNotesSource: 'input'
         releaseNotes: 'Test Release Notes'
         assets: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
