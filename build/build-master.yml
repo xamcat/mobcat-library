@@ -137,3 +137,14 @@ stages:
 
     steps:
     - script: echo Publish Nuget Github the code!
+    - task: GitHubRelease@0
+      inputs:
+        gitHubConnection: 'xamcat'
+        repositoryName: 'xamcat/mobcat-library'
+        action: 'create'
+        target: '$(Build.SourceVersion)'
+        tagSource: 'manual'
+        tag: '''v$(Build.BuildNumber)'''
+        title: '''v$(Build.BuildNumber)'''
+        assets: '$(System.DefaultWorkingDirectory)/**/drop_nuget/*.nupkg'
+        isDraft: true
