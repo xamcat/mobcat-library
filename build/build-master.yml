@@ -139,7 +139,7 @@ stages:
     - script: echo Publish Nuget Github the code!
     - task: GitHubRelease@0
       inputs:
-        gitHubConnection: 'xamcat'
+        gitHubConnection: 'XamCAT GitHub Connection'
         repositoryName: 'xamcat/mobcat-library'
         action: 'create'
         target: '$(Build.SourceVersion)'
