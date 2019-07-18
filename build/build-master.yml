@@ -1,14 +1,14 @@
 stages:
-- stage: BuildProjects
-    jobs: 
-    - job: BuildProject
-        displayName: Build Library Projects
-        pool:
-            name: Hosted VS2017
-            demands: msbuild
+- stage: Build
+  jobs:
+  - job: BuildJob
+    pool:
+        name: Hosted VS2017
+        demands: msbuild
 
-        steps:
-        - bash: |
+    steps:
+    - script: echo Building!
+    - bash: |
         echo '$(Build_BuildID)' $BUILD_BUILDID
         BUILDNUMBER=$BUILD_BUILDID
         VERSION=1.0.$BUILDNUMBER
@@ -37,15 +37,15 @@ stages:
         inputs:
             restoreSolution: 'mobcat_shared/MobCAT.Forms/MobCAT.Forms.csproj'
 
-        - task: NuGetCommand@2
-        displayName: 'NuGet restore : MobCAT.Droid'
-        inputs:
-            restoreSolution: 'mobcat_shared/MobCAT.Droid/MobCAT.Droid.csproj'
+        # - task: NuGetCommand@2
+        # displayName: 'NuGet restore : MobCAT.Droid'
+        # inputs:
+        #     restoreSolution: 'mobcat_shared/MobCAT.Droid/MobCAT.Droid.csproj'
 
-        - task: NuGetCommand@2
-        displayName: 'NuGet restore : MobCAT.iOS'
-        inputs:
-            restoreSolution: 'mobcat_shared/MobCAT.iOS/MobCAT.iOS.csproj'
+        # - task: NuGetCommand@2
+        # displayName: 'NuGet restore : MobCAT.iOS'
+        # inputs:
+        #     restoreSolution: 'mobcat_shared/MobCAT.iOS/MobCAT.iOS.csproj'
 
         - task: MSBuild@1
         displayName: 'Build MobCAT'
@@ -59,59 +59,25 @@ stages:
             solution: 'mobcat_shared/MobCAT.Forms/MobCAT.Forms.csproj'
             configuration: '$(BuildConfiguration)'
 
-        - task: MSBuild@1
-        displayName: 'Build MobCAT.Droid'
-        inputs:
-            solution: 'mobcat_shared/MobCAT.Droid/MobCAT.Droid.csproj'
-            configuration: '$(BuildConfiguration)'
+        # - task: MSBuild@1
+        # displayName: 'Build MobCAT.Droid'
+        # inputs:
+        #     solution: 'mobcat_shared/MobCAT.Droid/MobCAT.Droid.csproj'
+        #     configuration: '$(BuildConfiguration)'
 
-        - task: MSBuild@1
-        displayName: 'Build MobCAT.iOS'
-        inputs:
-            solution: 'mobcat_shared/MobCAT.iOS/MobCAT.iOS.csproj'
-            configuration: '$(BuildConfiguration)'
+        # - task: MSBuild@1
+        # displayName: 'Build MobCAT.iOS'
+        # inputs:
+        #     solution: 'mobcat_shared/MobCAT.iOS/MobCAT.iOS.csproj'
+        #     configuration: '$(BuildConfiguration)'
 
-        - task: DotNetCoreCLI@2
-        displayName: 'dotnet pack : MobCAT'
-        inputs:
-            command: pack
-            packagesToPack: 'mobcat_shared/MobCAT/MobCAT.csproj'
-            versioningScheme: byEnvVar
-            versionEnvVar: VERSION
 
-        - task: DotNetCoreCLI@2
-        displayName: 'dotnet pack : MobCAT.Forms'
-        inputs:
-            command: pack
-            packagesToPack: 'mobcat_shared/MobCAT.Forms/MobCAT.Forms.csproj'
-            versioningScheme: byEnvVar
-            versionEnvVar: VERSION
+- stage: Deploy
+  jobs:
+  - job: Deploy
+    pool:
+        name: Hosted VS2017
+        demans: msbuild
 
-        - task: NuGetCommand@2
-        displayName: 'NuGet pack : MobCAT.Droid'
-        inputs:
-            command: pack
-            packagesToPack: 'mobcat_shared/MobCAT.Droid/MobCAT.Droid.csproj'
-            versioningScheme: byEnvVar
-            versionEnvVar: VERSION
-
-        - task: NuGetCommand@2
-        displayName: 'NuGet pack : MobCAT.iOS'
-        inputs:
-            command: pack
-            packagesToPack: 'mobcat_shared/MobCAT.iOS/MobCAT.iOS.csproj'
-            versioningScheme: byEnvVar
-            versionEnvVar: VERSION
-
-        - task: NuGetCommand@2
-        displayName: 'NuGet push'
-        inputs:
-            command: push
-            packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;'
-            publishVstsFeed: 'ba914ed2-a76a-4904-90be-94827b74b144'
-        enabled: false
-
-        - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact: nuget'
-        inputs:
-            ArtifactName: nuget
+    steps:
+    - script: echo Deploying the code!
