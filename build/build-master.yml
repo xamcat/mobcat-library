@@ -158,4 +158,3 @@ stages:
         releaseNotes: 'Test Release Notes'
         assets: '$(System.DefaultWorkingDirectory)/**/drop_nuget/*.nupkg'
         isDraft: true
-      enabled: false
