@@ -37,15 +37,15 @@ stages:
         inputs:
             restoreSolution: 'mobcat_shared/MobCAT.Forms/MobCAT.Forms.csproj'
 
-        - task: NuGetCommand@2
-        displayName: 'NuGet restore : MobCAT.Droid'
-        inputs:
-            restoreSolution: 'mobcat_shared/MobCAT.Droid/MobCAT.Droid.csproj'
+        # - task: NuGetCommand@2
+        # displayName: 'NuGet restore : MobCAT.Droid'
+        # inputs:
+        #     restoreSolution: 'mobcat_shared/MobCAT.Droid/MobCAT.Droid.csproj'
 
-        - task: NuGetCommand@2
-        displayName: 'NuGet restore : MobCAT.iOS'
-        inputs:
-            restoreSolution: 'mobcat_shared/MobCAT.iOS/MobCAT.iOS.csproj'
+        # - task: NuGetCommand@2
+        # displayName: 'NuGet restore : MobCAT.iOS'
+        # inputs:
+        #     restoreSolution: 'mobcat_shared/MobCAT.iOS/MobCAT.iOS.csproj'
 
         - task: MSBuild@1
         displayName: 'Build MobCAT'
@@ -59,14 +59,14 @@ stages:
             solution: 'mobcat_shared/MobCAT.Forms/MobCAT.Forms.csproj'
             configuration: '$(BuildConfiguration)'
 
-        - task: MSBuild@1
-        displayName: 'Build MobCAT.Droid'
-        inputs:
-            solution: 'mobcat_shared/MobCAT.Droid/MobCAT.Droid.csproj'
-            configuration: '$(BuildConfiguration)'
+        # - task: MSBuild@1
+        # displayName: 'Build MobCAT.Droid'
+        # inputs:
+        #     solution: 'mobcat_shared/MobCAT.Droid/MobCAT.Droid.csproj'
+        #     configuration: '$(BuildConfiguration)'
 
-        - task: MSBuild@1
-        displayName: 'Build MobCAT.iOS'
-        inputs:
-            solution: 'mobcat_shared/MobCAT.iOS/MobCAT.iOS.csproj'
-            configuration: '$(BuildConfiguration)'
+        # - task: MSBuild@1
+        # displayName: 'Build MobCAT.iOS'
+        # inputs:
+        #     solution: 'mobcat_shared/MobCAT.iOS/MobCAT.iOS.csproj'
+        #     configuration: '$(BuildConfiguration)'
