@@ -138,22 +138,6 @@ stages:
 
     steps:
     - script: echo Publish Nuget Github the code!
-    - task: Bash@3
-      displayName: 'Version Script'
-      inputs:
-        targetType: 'inline'
-        script: |
-          echo '$(Build_BuildID)' $BUILD_BUILDID
-                  BUILDNUMBER=$BUILD_BUILDID
-                  VERSION=1.0.$BUILDNUMBER
-                  echo 'VERSION ' $VERSION
-                  
-                  #if ! [ $BRANCH = master ]; then
-                  #   VERSION=1.0.$BUILDNUMBER
-                  #    echo "##vso[build.updatebuildnumber]$VERSION"
-                  #fi;
-                  
-                  echo "##vso[task.setvariable variable=Version]$VERSION"
 
     - task: DownloadBuildArtifacts@0
       inputs:
@@ -169,8 +153,8 @@ stages:
         action: 'create'
         target: '$(Build.SourceVersion)'
         tagSource: 'manual'
-        tag: 'v($VERSION)'
-        title: 'v($VERSION)'
+        tag: 'v$(VERSION)'
+        title: 'v$(VERSION)'
         assets: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
         addChangeLog: false
         isDraft: true
