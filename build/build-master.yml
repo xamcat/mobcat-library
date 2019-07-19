@@ -176,5 +176,3 @@ stages:
         assets: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
         addChangeLog: false
         isDraft: true
-
-        delete
