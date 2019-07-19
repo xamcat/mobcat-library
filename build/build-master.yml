@@ -1,7 +1,7 @@
 stages:
 - stage: BuildNuget
   jobs:
-  - job: BuildNuget
+  - job: BuildNugetWindows
     pool:
         name: Hosted VS2017
         demands: msbuild
@@ -25,15 +25,10 @@ stages:
       inputs:
         restoreSolution: 'MobCAT.Forms/MobCAT.Forms.csproj'
 
-        # - task: NuGetCommand@2
-        # displayName: 'NuGet restore : MobCAT.Droid'
-        # inputs:
-        #     restoreSolution: 'mobcat_shared/MobCAT.Droid/MobCAT.Droid.csproj'
-
-        # - task: NuGetCommand@2
-        # displayName: 'NuGet restore : MobCAT.iOS'
-        # inputs:
-        #     restoreSolution: 'mobcat_shared/MobCAT.iOS/MobCAT.iOS.csproj'
+    - task: NuGetCommand@2
+      displayName: 'NuGet restore MobCAT.Droid'
+      inputs:
+        restoreSolution: 'MobCAT.Droid/MobCAT.Droid.csproj'
 
     - task: MSBuild@1
       displayName: 'Build MobCAT'
@@ -47,17 +42,47 @@ stages:
         solution: 'MobCAT.Forms/MobCAT.Forms.csproj'
         configuration: '$(BuildConfiguration)'
 
-        # - task: MSBuild@1
-        # displayName: 'Build MobCAT.Droid'
-        # inputs:
-        #     solution: 'mobcat_shared/MobCAT.Droid/MobCAT.Droid.csproj'
-        #     configuration: '$(BuildConfiguration)'
+    - task: MSBuild@1
+      displayName: 'Build MobCAT.Droid'
+      inputs:
+        solution: 'MobCAT.Droid/MobCAT.Droid.csproj'
+        configuration: '$(BuildConfiguration)'
 
-        # - task: MSBuild@1
-        # displayName: 'Build MobCAT.iOS'
-        # inputs:
-        #     solution: 'mobcat_shared/MobCAT.iOS/MobCAT.iOS.csproj'
-        #     configuration: '$(BuildConfiguration)'
+  - job: BuildNugetMac
+    pool: 
+        name: Hosted macOS
+        vmImage: 'macOS 10.14'
+        demands:
+        - MSBuild
+        - Xamarin.iOS
+    
+    steps:
+    - task: NuGetToolInstaller@0
+      displayName: 'Use NuGet 4.3.1'
+      inputs:
+        versionSpec: 4.3.1
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet restore MobCAT'
+      inputs:
+        restoreSolution: 'MobCAT/MobCAT.csproj'
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet restore MobCAT.iOS'
+      inputs:
+        restoreSolution: 'MobCAT.iOS/MobCAT.iOS.csproj'
+
+    - task: MSBuild@1
+      displayName: 'Build MobCAT'
+      inputs:
+        solution: 'MobCAT/MobCAT.csproj'
+        configuration: '$(BuildConfiguration)'
+    
+    - task: MSBuild@1
+      displayName: 'Build MobCAT'
+      inputs:
+        solution: 'MobCAT.iOS/MobCAT.iOS.csproj'
+        configuration: '$(BuildConfiguration)'
 
 - stage: PackNugets
   jobs:
@@ -102,6 +127,22 @@ stages:
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
 
+    - task: NuGetCommand@2
+      displayName: 'NuGet pack  MobCAT.Droid'
+      inputs:
+        command: pack
+        packagesToPack: 'MobCAT.Droid/MobCAT.Droid.csproj'
+        versioningScheme: byEnvVar
+        versionEnvVar: VERSION
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet pack  MobCAT.iOS'
+      inputs:
+        command: pack
+        packagesToPack: 'MobCAT.iOS/MobCAT.iOS.csproj'
+        versioningScheme: byEnvVar
+        versionEnvVar: VERSION
+
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(Build.SourcesDirectory)'
@@ -113,22 +154,6 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop_nuget'
         publishLocation: 'Container'
-
-# - task: NuGetCommand@2
-#   displayName: 'NuGet pack  MobCAT.Droid'
-#   inputs:
-#     command: pack
-#     packagesToPack: 'MobCAT.Droid/MobCAT.Droid.csproj'
-#     versioningScheme: byEnvVar
-#     versionEnvVar: VERSION
-
-# - task: NuGetCommand@2
-#   displayName: 'NuGet pack  MobCAT.iOS'
-#   inputs:
-#     command: pack
-#     packagesToPack: 'MobCAT.iOS/MobCAT.iOS.csproj'
-#     versioningScheme: byEnvVar
-#     versionEnvVar: VERSION
 
 - stage: PublishNuget
   jobs:
