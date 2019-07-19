@@ -147,8 +147,6 @@ stages:
         artifactName: 'drop_nuget'
         downloadPath: '$(System.ArtifactsDirectory)'
 
-    
-
     - task: GitHubRelease@0
       inputs:
         gitHubConnection: 'GitHub connection 6'
