@@ -171,7 +171,6 @@ stages:
         tagSource: 'manual'
         tag: 'v($VERSION)'
         title: 'v($VERSION)'
-        releaseNotesSource: 'input'
-        releaseNotes: 'Test Release Notes'
         assets: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
+        addChangeLog: false
         isDraft: true
