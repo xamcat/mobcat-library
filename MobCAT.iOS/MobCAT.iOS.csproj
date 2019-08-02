@@ -70,7 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MobCAT\MobCAT.csproj">
-      <Project>{076DEBC2-87D2-4273-AC13-5DAA7119AB0A}</Project>
+      <Project>{3BBD87D3-6E79-4A92-AA9C-2E540846C48F}</Project>
       <Name>MobCAT</Name>
     </ProjectReference>
   </ItemGroup>

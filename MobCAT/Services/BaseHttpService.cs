@@ -5,19 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.MobCAT.Converters;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net;
-using Polly;
 
 namespace Microsoft.MobCAT.Services
 {
     public class BaseHttpService
     {
-        string _baseApiUri;
-
         /// <summary>
         /// Gets the base API URL of the service.
         /// </summary>
-        protected string BaseApiUrl => _baseApiUri;
+        protected string BaseApiUrl { get; }
 
         ISerializer<string> _serializer;
 
@@ -91,7 +87,7 @@ namespace Microsoft.MobCAT.Services
 
             _client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-            _baseApiUri = baseApiUri;
+            BaseApiUrl = baseApiUri;
         }
 
         /// <summary>
@@ -288,7 +284,7 @@ namespace Microsoft.MobCAT.Services
         protected async Task<HttpResponseMessage> SendAsync(HttpMethod requestType, string requestUri, CancellationToken cancellationToken, Task<Action<HttpRequestMessage>> modifyRequest = null,
             string jsonRequest = null)
         {
-            var request = new HttpRequestMessage(requestType, new Uri($"{_baseApiUri}{requestUri}"));
+            var request = new HttpRequestMessage(requestType, new Uri($"{BaseApiUrl}{requestUri}"));
 
             if (jsonRequest != null)
                 request.Content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
