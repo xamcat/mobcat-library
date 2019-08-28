@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net;
 using Polly;
+using MobCAT.Converters;
 
 namespace Microsoft.MobCAT.Services
 {
@@ -36,7 +37,7 @@ namespace Microsoft.MobCAT.Services
         /// <remarks>Defaults to a basic JSON serializer.</remarks>
         protected virtual ISerializer<string> Serializer
         {
-            get => _serializer ?? (_serializer = new JsonSerializer());
+            get => _serializer ?? (_serializer = new NewtonsoftJsonSerializer());
             set
             {
                 _serializer = value;
