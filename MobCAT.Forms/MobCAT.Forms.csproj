@@ -5,15 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Class1.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.1.0.555618" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MobCAT\MobCAT.csproj" />
+    <Folder Include="Controls\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
+    <ProjectReference Include="..\MobCAT\MobCAT.csproj" />
   </ItemGroup>
 </Project>
