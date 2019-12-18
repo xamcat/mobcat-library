@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobCAT", "MobCAT\MobCAT.csproj", "{3BBD87D3-6E79-4A92-AA9C-2E540846C48F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobCAT.Forms", "MobCAT.Forms\MobCAT.Forms.csproj", "{F9402EFA-6F3D-4130-B394-E5DE5C7F0285}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobCAT.Droid", "MobCAT.Droid\MobCAT.Droid.csproj", "{B859CCAF-08F3-4573-A33E-9E95394E7C76}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobCAT.iOS", "MobCAT.iOS\MobCAT.iOS.csproj", "{074F8FC8-3F91-42BE-897C-4291D3A46187}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobCAT.Forms", "MobCAT.Forms\MobCAT.Forms.csproj", "{F5A7A329-BBF5-4F5E-8D90-6C3628CA896E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,6 @@ Global
 		{3BBD87D3-6E79-4A92-AA9C-2E540846C48F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BBD87D3-6E79-4A92-AA9C-2E540846C48F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BBD87D3-6E79-4A92-AA9C-2E540846C48F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9402EFA-6F3D-4130-B394-E5DE5C7F0285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9402EFA-6F3D-4130-B394-E5DE5C7F0285}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9402EFA-6F3D-4130-B394-E5DE5C7F0285}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9402EFA-6F3D-4130-B394-E5DE5C7F0285}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B859CCAF-08F3-4573-A33E-9E95394E7C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B859CCAF-08F3-4573-A33E-9E95394E7C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B859CCAF-08F3-4573-A33E-9E95394E7C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,5 +27,9 @@ Global
 		{074F8FC8-3F91-42BE-897C-4291D3A46187}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{074F8FC8-3F91-42BE-897C-4291D3A46187}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{074F8FC8-3F91-42BE-897C-4291D3A46187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5A7A329-BBF5-4F5E-8D90-6C3628CA896E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5A7A329-BBF5-4F5E-8D90-6C3628CA896E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5A7A329-BBF5-4F5E-8D90-6C3628CA896E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5A7A329-BBF5-4F5E-8D90-6C3628CA896E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
