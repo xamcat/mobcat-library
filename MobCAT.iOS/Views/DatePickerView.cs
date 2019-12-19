@@ -1,7 +1,5 @@
 ﻿using System;
-using System;
 using CoreGraphics;
-using Foundation;
 using Microsoft.MobCAT.iOS.Extensions;
 using UIKit;
 
