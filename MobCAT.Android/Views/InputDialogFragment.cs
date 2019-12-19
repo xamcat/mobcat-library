@@ -6,6 +6,8 @@ using Android.Text;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using Graphics = Android.Graphics;
+
 namespace Microsoft.MobCAT.Android.Views
 {
     public class InputDialogFragment : DialogFragment, ITextWatcher, IDialogInterfaceOnShowListener, View.IOnClickListener
@@ -41,11 +43,11 @@ namespace Microsoft.MobCAT.Android.Views
             Tcs = new TaskCompletionSource<string>();
         }
 
-        public override Dialog OnCreateDialog(Android.OS.Bundle savedInstanceState)
+        public override Dialog OnCreateDialog(global::Android.OS.Bundle savedInstanceState)
         {
             _contextWeak.TryGetTarget(out Context context);
 
-            var alertBuilder = new Android.Support.V7.App.AlertDialog.Builder(context);
+            var alertBuilder = new global::Android.Support.V7.App.AlertDialog.Builder(context);
             alertBuilder.SetTitle(_title);
 
             if (_message != null)
@@ -82,9 +84,9 @@ namespace Microsoft.MobCAT.Android.Views
             if (_validator == null) return;
 
             if (_validator(s.ToString()))
-                _textInput.SetTextColor(Android.Graphics.Color.Black);
+                _textInput.SetTextColor(Graphics.Color.Black);
             else
-                _textInput.SetTextColor(Android.Graphics.Color.Red);
+                _textInput.SetTextColor(Graphics.Color.Red);
         }
 
         public void BeforeTextChanged(ICharSequence s, int start, int count, int after)
@@ -98,7 +100,7 @@ namespace Microsoft.MobCAT.Android.Views
         public void OnShow(IDialogInterface dialog)
         {
             _dialog = dialog;
-            var button = ((Android.Support.V7.App.AlertDialog)dialog).GetButton((int)DialogButtonType.Positive);
+            var button = ((global::Android.Support.V7.App.AlertDialog)dialog).GetButton((int)DialogButtonType.Positive);
             button.SetOnClickListener(this);
         }
 

@@ -11,7 +11,7 @@ namespace Microsoft.MobCAT.Android.Services
     /// Broadcast receiver to get notifications from Android on connectivity change
     /// </summary>
     [BroadcastReceiver(Enabled = true, Label = "MobCat Connectivity Broadcast Receiver")]
-    [Android.Runtime.Preserve(AllMembers = true)]
+    [global::Android.Runtime.Preserve(AllMembers = true)]
     internal class ConnectivityChangeBroadcastReceiver : BroadcastReceiver
     {
         public event EventHandler<ConnectivityChangedEventArgs> ConnectivityChanged;

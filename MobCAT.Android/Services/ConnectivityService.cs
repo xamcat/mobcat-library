@@ -47,7 +47,7 @@ namespace Microsoft.MobCAT.Android.Services
             {
                 //When on API 21+ need to use getAllNetworks, else fall base to GetAllNetworkInfo
                 //https://developer.android.com/reference/android/net/ConnectivityManager.html#getAllNetworks()
-                if ((int)Android.OS.Build.VERSION.SdkInt >= 21)
+                if ((int)global::Android.OS.Build.VERSION.SdkInt >= 21)
                 {
                     foreach (var network in manager.GetAllNetworks())
                     {
@@ -153,7 +153,7 @@ namespace Microsoft.MobCAT.Android.Services
         {
             //When on API 21+ need to use getAllNetworks, else fall base to GetAllNetworkInfo
             //https://developer.android.com/reference/android/net/ConnectivityManager.html#getAllNetworks()
-            if ((int)Android.OS.Build.VERSION.SdkInt >= 21)
+            if ((int)global::Android.OS.Build.VERSION.SdkInt >= 21)
             {
                 foreach (var network in manager.GetAllNetworks())
                 {

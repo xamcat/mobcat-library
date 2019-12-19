@@ -179,7 +179,7 @@ namespace Microsoft.MobCAT.Android
 
             MainApplication.CurrentActivity.RunOnUiThread(() =>
             {
-                var dateDialog = new Android.App.DatePickerDialog(MainApplication.CurrentActivity);
+                var dateDialog = new global::Android.App.DatePickerDialog(MainApplication.CurrentActivity);
 
                 dateDialog.SetCancelable(false);
                 dateDialog.SetCanceledOnTouchOutside(false);
@@ -239,8 +239,8 @@ namespace Microsoft.MobCAT.Android
 
             public override View GetView(int position, View convertView, ViewGroup parent)
             {
-                var view = convertView ?? MainApplication.CurrentActivity.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItem1, null);
-                view.FindViewById<TextView>(Android.Resource.Id.Text1).Text = actions[position];
+                var view = convertView ?? MainApplication.CurrentActivity.LayoutInflater.Inflate(global::Android.Resource.Layout.SimpleListItem1, null);
+                view.FindViewById<TextView>(global::Android.Resource.Id.Text1).Text = actions[position];
 
                 return view;
             }

@@ -17,7 +17,7 @@ namespace Microsoft.MobCAT.Android.Views
             _title = title;
         }
 
-        public override Dialog OnCreateDialog(Android.OS.Bundle savedInstanceState)
+        public override Dialog OnCreateDialog(global::Android.OS.Bundle savedInstanceState)
         {
             _contextWeak.TryGetTarget(out Context context);
 
