@@ -10,16 +10,16 @@ namespace Microsoft.MobCAT.Repository
     /// Base class for implementing a repository store with one or more repositories sharing a single connection.
     /// </summary>
     /// <typeparam name="T">The datastore connection <see cref="Type"/> used by the repository store.</typeparam>
-    public class BaseRepositoryStore<T> : IBaseRepositoryContext<T>, IDisposable
+    public class BaseRepositoryContext<T> : IBaseRepositoryContext<T>, IDisposable
     {
         bool _disposed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseRepositoryStore{T}"/> class.
+        /// Initializes a new instance of the <see cref="BaseRepositoryContext{T}"/> class.
         /// </summary>
         /// <param name="folderPath">Filepath representing the storage location for the datastore.</param>
         /// <param name="datastoreName">Name of the datastore without extension.</param>
-        public BaseRepositoryStore(string folderPath, string datastoreName)
+        public BaseRepositoryContext(string folderPath, string datastoreName)
         {
             Guard.NullOrWhitespace(folderPath);
             Guard.NullOrWhitespace(datastoreName);
@@ -129,7 +129,7 @@ namespace Microsoft.MobCAT.Repository
         }
 
         /// <summary>
-        /// Resets the repositories managed by the <see cref="BaseRepositoryStore{T}"/> store.
+        /// Resets the repositories managed by the <see cref="BaseRepositoryContext{T}"/> store.
         /// </summary>
         public void ResetRepositories()
             => OnResetRepositories();
