@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Microsoft.MobCAT.Droid.Extensions
+namespace Microsoft.MobCAT.Android.Extensions
 {
     public static class DateTimeExtensions
     {

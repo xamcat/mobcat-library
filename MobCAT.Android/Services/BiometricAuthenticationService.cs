@@ -10,7 +10,7 @@ using Microsoft.MobCAT.Abstractions;
 using Microsoft.MobCAT.Models;
 using Permission = Android.Content.PM.Permission;
 
-namespace Microsoft.MobCAT.Droid.Services
+namespace Microsoft.MobCAT.Android.Services
 {
     public class BiometricAuthenticationService : IBiometricAuthenticationService
     {

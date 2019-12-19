@@ -4,7 +4,7 @@ using Android.OS;
 using Android.Runtime;
 using Microsoft.MobCAT.Services;
 
-namespace Microsoft.MobCAT.Droid
+namespace Microsoft.MobCAT.Android
 {
     [Application]
     public class MainApplication : Application, Application.IActivityLifecycleCallbacks

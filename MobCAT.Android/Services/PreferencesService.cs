@@ -2,7 +2,7 @@
 using Android.Content;
 using Microsoft.MobCAT.Abstractions;
 
-namespace Microsoft.MobCAT.Droid.Services
+namespace Microsoft.MobCAT.Android.Services
 {
     public class PreferencesService : IPreferencesService
     {

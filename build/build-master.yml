@@ -26,9 +26,9 @@ stages:
         restoreSolution: 'MobCAT.Forms/MobCAT.Forms.csproj'
 
     - task: NuGetCommand@2
-      displayName: 'NuGet restore MobCAT.Droid'
+      displayName: 'NuGet restore MobCAT.Android'
       inputs:
-        restoreSolution: 'MobCAT.Droid/MobCAT.Droid.csproj'
+        restoreSolution: 'MobCAT.Android/MobCAT.Android.csproj'
 
     - task: MSBuild@1
       displayName: 'Build MobCAT'
@@ -43,9 +43,9 @@ stages:
         configuration: '$(BuildConfiguration)'
 
     - task: MSBuild@1
-      displayName: 'Build MobCAT.Droid'
+      displayName: 'Build MobCAT.Android'
       inputs:
-        solution: 'MobCAT.Droid/MobCAT.Droid.csproj'
+        solution: 'MobCAT.Android/MobCAT.Android.csproj'
         configuration: '$(BuildConfiguration)'
 
   - job: BuildNugetMac
@@ -128,10 +128,10 @@ stages:
         versionEnvVar: VERSION
 
     - task: NuGetCommand@2
-      displayName: 'NuGet pack  MobCAT.Droid'
+      displayName: 'NuGet pack  MobCAT.Android'
       inputs:
         command: pack
-        packagesToPack: 'MobCAT.Droid/MobCAT.Droid.csproj'
+        packagesToPack: 'MobCAT.Android/MobCAT.Android.csproj'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
 

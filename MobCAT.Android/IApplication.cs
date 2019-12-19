@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.OS;
 
-namespace Microsoft.MobCAT.Droid
+namespace Microsoft.MobCAT.Android
 {
     public interface IApplication
     {

@@ -2,13 +2,13 @@
 using System.Threading.Tasks;
 using Android.App;
 using Android.Widget;
-using Microsoft.MobCAT.Droid.Views;
+using Microsoft.MobCAT.Android.Views;
 using Microsoft.MobCAT.Services;
 using Android.Content;
 using Android.Views;
-using Microsoft.MobCAT.Droid.Extensions;
+using Microsoft.MobCAT.Android.Extensions;
 
-namespace Microsoft.MobCAT.Droid
+namespace Microsoft.MobCAT.Android
 {
     public class AlertService : IAlertService
     {

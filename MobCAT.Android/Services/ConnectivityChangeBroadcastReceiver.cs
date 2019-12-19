@@ -5,7 +5,7 @@ using Android.Content;
 using Android.Net;
 using Microsoft.MobCAT.Abstractions;
 
-namespace Microsoft.MobCAT.Droid.Services
+namespace Microsoft.MobCAT.Android.Services
 {
     /// <summary>
     /// Broadcast receiver to get notifications from Android on connectivity change

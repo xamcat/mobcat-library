@@ -8,7 +8,7 @@ using Java.Net;
 using Microsoft.MobCAT.Abstractions;
 using Microsoft.MobCAT.Models;
 
-namespace Microsoft.MobCAT.Droid.Services
+namespace Microsoft.MobCAT.Android.Services
 {
     public class ConnectivityService : IConnectivityService, IDisposable
     {

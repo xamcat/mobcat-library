@@ -7,8 +7,8 @@
     <ProjectGuid>{B859CCAF-08F3-4573-A33E-9E95394E7C76}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>Microsoft.MobCAT.Droid</RootNamespace>
-    <AssemblyName>Microsoft.MobCAT.Droid</AssemblyName>
+    <RootNamespace>Microsoft.MobCAT.Android</RootNamespace>
+    <AssemblyName>Microsoft.MobCAT.Android</AssemblyName>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>

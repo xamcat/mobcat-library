@@ -4,7 +4,7 @@ using Android.Content;
 using Android.Views;
 using Android.Widget;
 
-namespace Microsoft.MobCAT.Droid.Views
+namespace Microsoft.MobCAT.Android.Views
 {
     public class ProgressDialogFragment : DialogFragment
     {

@@ -5,7 +5,7 @@ using Android.Util;
 using Java.Security;
 using Javax.Crypto;
 
-namespace Microsoft.MobCAT.Droid.Services
+namespace Microsoft.MobCAT.Android.Services
 {
     internal class CryptoObjectHelper
     {

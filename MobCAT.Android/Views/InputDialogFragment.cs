@@ -6,7 +6,7 @@ using Android.Text;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
-namespace Microsoft.MobCAT.Droid.Views
+namespace Microsoft.MobCAT.Android.Views
 {
     public class InputDialogFragment : DialogFragment, ITextWatcher, IDialogInterfaceOnShowListener, View.IOnClickListener
     {

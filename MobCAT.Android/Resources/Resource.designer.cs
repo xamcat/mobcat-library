@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("Microsoft.MobCAT.Droid.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("Microsoft.MobCAT.Android.Resource", IsApplication=false)]
 
-namespace Microsoft.MobCAT.Droid
+namespace Microsoft.MobCAT.Android
 {
 	
 	

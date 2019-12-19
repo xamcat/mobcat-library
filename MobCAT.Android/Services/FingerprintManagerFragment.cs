@@ -12,7 +12,7 @@ using Javax.Crypto;
 using Microsoft.MobCAT.Models;
 using CancellationSignal = Android.Support.V4.OS.CancellationSignal;
 
-namespace Microsoft.MobCAT.Droid.Services
+namespace Microsoft.MobCAT.Android.Services
 {
     public class FingerprintManagerFragment : DialogFragment, IDialogInterfaceOnShowListener
     {

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Android.OS;
 using Microsoft.MobCAT.Services;
 
-namespace Microsoft.MobCAT.Droid.Services
+namespace Microsoft.MobCAT.Android.Services
 {
     public class ThreadService : IThreadService
     {
