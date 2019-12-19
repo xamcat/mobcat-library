@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobCAT.Repository.SQLiteNet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobCAT.Repository.SQLiteNet.Test.iOS", "MobCAT.Repository.SQLiteNet.Test.iOS\MobCAT.Repository.SQLiteNet.Test.iOS.csproj", "{E155AC68-BACD-43C5-94A7-CBF851849A10}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobCAT.Repository.SQLiteNet.Test.Android", "MobCAT.Repository.SQLiteNet.Test.Android\MobCAT.Repository.SQLiteNet.Test.Android.csproj", "{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -158,6 +160,18 @@ Global
 		{E155AC68-BACD-43C5-94A7-CBF851849A10}.Debug|iPhone.Build.0 = Debug|iPhone
 		{E155AC68-BACD-43C5-94A7-CBF851849A10}.Release|iPhone.ActiveCfg = Release|iPhone
 		{E155AC68-BACD-43C5-94A7-CBF851849A10}.Release|iPhone.Build.0 = Release|iPhone
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D}.Release|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -176,5 +190,6 @@ Global
 		{EEF01556-1321-45DB-887E-D6D34A747FD8} = {A20F01EC-7346-4812-A56B-B691BC9902A3}
 		{A0099F68-2292-4A57-8A32-CFE68956D91D} = {A20F01EC-7346-4812-A56B-B691BC9902A3}
 		{E155AC68-BACD-43C5-94A7-CBF851849A10} = {9EED5163-8049-45D7-9E11-F141CF623211}
+		{A3CFBFC3-EC33-4A6B-890D-C41DCE1C3E1D} = {9EED5163-8049-45D7-9E11-F141CF623211}
 	EndGlobalSection
 EndGlobal
