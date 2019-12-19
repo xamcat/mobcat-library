@@ -34,9 +34,10 @@ namespace Microsoft.MobCAT.Services
         /// <param name="requestUri">Request URI.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
-        /// <param name="jsonRequest">Json request.</param>
+        /// <param name="requestContent">Request content.</param>
+        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <typeparam name="T">The type of response.</typeparam>
-        protected override async Task<T> SendAsync<T>(HttpMethod requestType, string requestUri, CancellationToken cancellationToken = default(CancellationToken), Task<Action<HttpRequestMessage>> modifyRequest = null, string jsonRequest = null)
+        protected override async Task<T> SendAsync<T>(HttpMethod requestType, string requestUri, CancellationToken cancellationToken = default, Action<HttpRequestMessage> modifyRequest = null, string requestContent = null, bool deserializeResponse = false)
         {
             T result = default(T);
 
@@ -44,7 +45,7 @@ namespace Microsoft.MobCAT.Services
             {
                 if (Connectivity != null && (await Connectivity.IsHostReachable(BaseApiUrl)))
                 {
-                    result = await SendAndDeserialize<T>(requestType, requestUri, cancellationToken, modifyRequest, jsonRequest);
+                    result = await SendAndDeserialize<T>(requestType, requestUri, cancellationToken, modifyRequest, requestContent);
                 }
                 else
                 {

@@ -5,43 +5,44 @@ using System.Threading.Tasks;
 using Microsoft.MobCAT.Converters;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net;
+using Polly;
 
 namespace Microsoft.MobCAT.Services
 {
     public class BaseHttpService
     {
+        private const string AcceptHeaderKey = "Accept";
+        private IStreamSerializer _streamSerializer;
+        private ISerializer<string> _serializer;
+
         /// <summary>
         /// Gets the base API URL of the service.
         /// </summary>
         protected string BaseApiUrl { get; }
 
-        ISerializer<string> _serializer;
-
         /// <summary>
         /// Gets or sets the string serializer the service will use.
         /// </summary>
         /// <value>The serializer.</value>
+        /// <remarks>Defaults to a basic JSON serializer.</remarks>
         protected virtual ISerializer<string> Serializer
         {
-            get
+            get => _serializer ?? (_serializer = new NewtonsoftJsonSerializer());
+            set
             {
-                if (_serializer == null)
-                {
-                    _serializer = ServiceContainer.Resolve<ISerializer<string>>(true);
-                    if (_serializer == null)
-                    {
-                        Logger.Debug("[BaseHttpService] An ISerializer<string> has not been registered, falling back to a JsonSerializer." +
-                                     " For improved performance, you could use the JsonNetSerializer in the MobCat.Core.Json package.");
-                        _serializer = new JsonSerializer();
-                    }
-                }
-
-                return _serializer;
+                _serializer = value;
+                _client?.DefaultRequestHeaders.Add(AcceptHeaderKey, StreamSerializer?.MediaType ?? value.MediaType);
             }
-            set => _serializer = value;
         }
 
-        IStreamSerializer _streamSerializer;
+        protected virtual AsyncPolicy GetRetryPolicy()
+        {
+            return Policy
+                .Handle<Exception>()
+                .WaitAndRetryAsync(5, retryAttempt =>
+                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+        }
 
         /// <summary>
         /// Gets or sets the optional stream serializer the service could use.
@@ -49,29 +50,16 @@ namespace Microsoft.MobCAT.Services
         /// <value>The stream serializer.</value>
         protected virtual IStreamSerializer StreamSerializer
         {
-            get
-            {
-                if (_streamSerializer == null)
-                {
-                    _streamSerializer = ServiceContainer.Resolve<IStreamSerializer>(true);
-                }
+            get => _streamSerializer;
 
-                return _streamSerializer;
+            set
+            {
+                _streamSerializer = value;
+                _client?.DefaultRequestHeaders.Add(AcceptHeaderKey, value?.MediaType ?? Serializer.MediaType);
             }
-            set => _streamSerializer = value;
         }
 
         protected HttpClient _client;
-
-        /// <summary>
-        /// This message is broadcast when a HttpResponseMessage is received from the service. This can be especially useful for debugging purposes. 
-        /// </summary>
-        public Action<HttpResponseMessage> HttpResponseMessageReceived { get; set; }
-
-        /// <summary>
-        /// This message is broadcast when a HttpRequestMessage is sent from the service. This can be especially useful for debugging purposes. 
-        /// </summary>
-        public Action<HttpRequestMessage> HttpRequestMessageSent { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microsoft.MobCat.Core.Services.BaseHttpService"/> class.
@@ -85,7 +73,7 @@ namespace Microsoft.MobCAT.Services
             else
                 _client = new HttpClient();
 
-            _client.DefaultRequestHeaders.Add("Accept", "application/json");
+            _client?.DefaultRequestHeaders.Add(AcceptHeaderKey, StreamSerializer?.MediaType ?? Serializer.MediaType);
 
             BaseApiUrl = baseApiUri;
         }
@@ -117,9 +105,31 @@ namespace Microsoft.MobCAT.Services
         /// <param name="requestUri">Request URI.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
+        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <typeparam name="T">The type of response.</typeparam>
-        protected virtual Task<T> DeleteAsync<T>(string requestUri, CancellationToken cancellationToken = default(CancellationToken), Task<Action<HttpRequestMessage>> modifyRequest = null) =>
-            SendAsync<T>(HttpMethod.Delete, requestUri, cancellationToken, modifyRequest);
+        protected virtual Task<T> DeleteAsync<T>(
+            string requestUri,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequest = null,
+            bool deserializeResponse = true)
+            => SendWithRetryAsync<T>(HttpMethod.Delete, requestUri, cancellationToken, modifyRequest, null, deserializeResponse);
+
+        /// <summary>
+        /// Starts a Delete call to the service.
+        /// </summary>
+        /// <returns>A task with result of type T.</returns>
+        /// <param name="requestUri">Request URI.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <param name="modifyRequest">Modify request.</param>
+        /// <returns>A task.</returns>
+        protected virtual async Task DeleteAsync(
+            string requestUri,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequest = null)
+        {
+            var response = await SendWithRetryAsync(HttpMethod.Delete, requestUri, cancellationToken, modifyRequest).ConfigureAwait(false);
+            response?.EnsureSuccessStatusCode();
+        }
 
         /// <summary>
         /// Starts a Get call to the service.
@@ -128,9 +138,14 @@ namespace Microsoft.MobCAT.Services
         /// <param name="requestUri">Request URI.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
+        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <typeparam name="T">The type of response.</typeparam>
-        protected virtual Task<T> GetAsync<T>(string requestUri, CancellationToken cancellationToken = default(CancellationToken), Task<Action<HttpRequestMessage>> modifyRequest = null) =>
-            SendAsync<T>(HttpMethod.Get, requestUri, cancellationToken, modifyRequest);
+        protected virtual Task<T> GetAsync<T>(
+            string requestUri,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequest = null,
+            bool deserializeResponse = true)
+            => SendWithRetryAsync<T>(HttpMethod.Get, requestUri, cancellationToken, modifyRequest, null, deserializeResponse);
 
         /// <summary>
         /// Starts a Put call to the service.
@@ -139,9 +154,14 @@ namespace Microsoft.MobCAT.Services
         /// <param name="requestUri">Request URI.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
+        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <typeparam name="T">The type of response.</typeparam>
-        protected virtual Task<T> PutAsync<T>(string requestUri, CancellationToken cancellationToken = default(CancellationToken), Task<Action<HttpRequestMessage>> modifyRequest = null) =>
-            SendAsync<T>(HttpMethod.Put, requestUri, cancellationToken, modifyRequest);
+        protected virtual Task<T> PutAsync<T>(
+            string requestUri,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequest = null,
+            bool deserializeResponse = true)
+            => SendWithRetryAsync<T>(HttpMethod.Put, requestUri, cancellationToken, modifyRequest, null, deserializeResponse);
 
         /// <summary>
         /// Starts a Put call to the service.
@@ -151,12 +171,41 @@ namespace Microsoft.MobCAT.Services
         /// <param name="obj">Payload of request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
+        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <typeparam name="T">The type of response.</typeparam>
         /// <typeparam name="K">The type of the payload.</typeparam>
-        protected virtual Task<T> PutAsync<T, K>(string requestUri, K obj, CancellationToken cancellationToken = default(CancellationToken), Task<Action<HttpRequestMessage>> modifyRequest = null)
+        protected virtual Task<T> PutAsync<T, K>(
+            string requestUri,
+            K obj,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequest = null,
+            bool deserializeResponse = true)
         {
-            var jsonRequest = obj != null ? Serializer.Serialize(obj) : null;
-            return SendAsync<T>(HttpMethod.Put, requestUri, cancellationToken, modifyRequest, jsonRequest);
+            var serializedContent = !obj.Equals(default(K)) ? Serializer.Serialize(obj) : null;
+            return SendWithRetryAsync<T>(HttpMethod.Put, requestUri, cancellationToken, modifyRequest, serializedContent, deserializeResponse);
+        }
+
+        /// <summary>
+        /// Starts a Put call to the service.
+        /// </summary>
+        /// <typeparam name="T">Payload of request of type T.</typeparam>
+        /// <param name="requestUri">Request URI.</param>
+        /// <param name="obj">Payload of request.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <param name="modifyRequest">Modify request.</param>
+        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
+        /// <returns>A task.</returns>
+        protected virtual async Task PutAsync<T>(
+            string requestUri,
+            T obj,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequest = null)
+        {
+            {
+                var serializedContent = !obj.Equals(default(T)) ? Serializer.Serialize(obj) : null;
+                var response = await SendWithRetryAsync(HttpMethod.Put, requestUri, cancellationToken, modifyRequest, serializedContent).ConfigureAwait(false);
+                response?.EnsureSuccessStatusCode();
+            }
         }
 
         /// <summary>
@@ -166,9 +215,14 @@ namespace Microsoft.MobCAT.Services
         /// <param name="requestUri">Request URI.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
+        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <typeparam name="T">The type of response..</typeparam>
-        protected virtual Task<T> PostAsync<T>(string requestUri, CancellationToken cancellationToken = default(CancellationToken), Task<Action<HttpRequestMessage>> modifyRequest = null) =>
-            SendAsync<T>(HttpMethod.Post, requestUri, cancellationToken, modifyRequest);
+        protected virtual Task<T> PostAsync<T>(
+            string requestUri,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequest = null,
+            bool deserializeResponse = true)
+            => SendWithRetryAsync<T>(HttpMethod.Post, requestUri, cancellationToken, modifyRequest, null, deserializeResponse);
 
         /// <summary>
         /// Starts a Post call to the service.
@@ -178,12 +232,18 @@ namespace Microsoft.MobCAT.Services
         /// <param name="obj">Payload of request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
+        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <typeparam name="T">The type of response.</typeparam>
         /// <typeparam name="K">The type of the payload.</typeparam>
-        protected virtual Task<T> PostAsync<T, K>(string requestUri, K obj, CancellationToken cancellationToken = default(CancellationToken), Task<Action<HttpRequestMessage>> modifyRequest = null)
+        protected virtual Task<T> PostAsync<T, K>(
+            string requestUri,
+            K obj,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequest = null,
+            bool deserializeResponse = true)
         {
-            var jsonRequest = obj != null ? Serializer.Serialize(obj) : null;
-            return SendAsync<T>(HttpMethod.Post, requestUri, cancellationToken, modifyRequest, jsonRequest);
+            var serializedContent = !obj.Equals(default(K)) ? Serializer.Serialize(obj) : null;
+            return SendWithRetryAsync<T>(HttpMethod.Post, requestUri, cancellationToken, modifyRequest, serializedContent, deserializeResponse);
         }
 
         /// <summary>
@@ -194,12 +254,80 @@ namespace Microsoft.MobCAT.Services
         /// <param name="obj">Payload of request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
+        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <typeparam name="T">The type of payload.</typeparam>
-        protected virtual async Task PostAsync<T>(string requestUri, T obj, CancellationToken cancellationToken = default(CancellationToken), Task<Action<HttpRequestMessage>> modifyRequest = null)
+        protected virtual async Task PostAsync<T>(
+            string requestUri,
+            T obj,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequest = null)
         {
-            var jsonRequest = obj != null ? Serializer.Serialize(obj) : null;
-            var response = await SendAsync(HttpMethod.Post, requestUri, cancellationToken, modifyRequest, jsonRequest).ConfigureAwait(false);
+            var serializedContent = !obj.Equals(default(T)) ? Serializer.Serialize(obj) : null;
+            var response = await SendWithRetryAsync(HttpMethod.Post, requestUri, cancellationToken, modifyRequest, serializedContent).ConfigureAwait(false);
             response?.EnsureSuccessStatusCode();
+        }
+
+        /// <summary>
+        /// Starts a request to the service with retry.
+        /// </summary>
+        /// <returns>Task with return type of HttpResponseMessage.</returns>
+        /// <param name="requestType">Request type.</param>
+        /// <param name="requestUri">Request URI.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <param name="modifyRequestAction">Modify request action.</param>
+        /// <param name="jsonRequest">Json request.</param>
+        protected virtual Task<HttpResponseMessage> SendWithRetryAsync(
+            HttpMethod requestType,
+            string requestUri,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequestAction = null,
+            string jsonRequest = null)
+            => GetRetryPolicy().ExecuteAsync(() => SendAsync(requestType, requestUri, cancellationToken, modifyRequestAction, jsonRequest));
+
+        /// <summary>
+        /// Starts a request to the service with retry.
+        /// </summary>
+        /// <returns>A task with result of type T.</returns>
+        /// <param name="requestType">Request type.</param>
+        /// <param name="requestUri">Request URI.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <param name="modifyRequestAction">Modify request action.</param>
+        /// <param name="jsonRequest">Json request.</param>
+        /// <param name="deserializeResponse">If set to <c>true</c> deserialize response.</param>
+        /// <typeparam name="T">The 1st type parameter.</typeparam>
+        protected virtual Task<T> SendWithRetryAsync<T>(
+            HttpMethod requestType,
+            string requestUri,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequestAction = null,
+            string jsonRequest = null,
+            bool deserializeResponse = true)
+            => GetRetryPolicy().ExecuteAsync(() => SendAsync<T>(requestType, requestUri, cancellationToken, modifyRequestAction, jsonRequest, deserializeResponse));
+
+        /// <summary>
+        /// Starts a request to the service
+        /// </summary>
+        /// <returns>Task with return type of HttpResponseMessage.</returns>
+        /// <param name="requestType">Request type.</param>
+        /// <param name="requestUri">Request URI.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <param name="modifyRequest">Modify request.</param>
+        /// <param name="requestContent">Json request.</param>
+        protected Task<HttpResponseMessage> SendAsync(
+            HttpMethod requestType,
+            string requestUri,
+            CancellationToken cancellationToken,
+            Action<HttpRequestMessage> modifyRequest = null,
+            string requestContent = null)
+        {
+            var request = new HttpRequestMessage(requestType, new Uri($"{BaseApiUrl}{requestUri}"));
+
+            if (requestContent != null)
+                request.Content = new StringContent(requestContent, Encoding.UTF8, StreamSerializer?.MediaType ?? Serializer.MediaType);
+
+            modifyRequest?.Invoke(request);
+
+            return _client.SendAsync(request, cancellationToken);
         }
 
         /// <summary>
@@ -210,20 +338,26 @@ namespace Microsoft.MobCAT.Services
         /// <param name="requestUri">Request URI.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
-        /// <param name="jsonRequest">Json request.</param>
+        /// <param name="requestContent">Json request.</param>
+        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <typeparam name="T">The type of response.</typeparam>
-        protected virtual async Task<T> SendAsync<T>(HttpMethod requestType, string requestUri, CancellationToken cancellationToken = default(CancellationToken),
-            Task<Action<HttpRequestMessage>> modifyRequest = null, string jsonRequest = null)
+        protected virtual async Task<T> SendAsync<T>(
+            HttpMethod requestType,
+            string requestUri,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequest = null,
+            string requestContent = null,
+            bool deserializeResponse = false)
         {
             T result = default(T);
 
             try
             {
-                result = await SendAndDeserialize<T>(requestType, requestUri, cancellationToken, modifyRequest, jsonRequest);
+                result = await SendAndDeserialize<T>(requestType, requestUri, cancellationToken, modifyRequest, requestContent, deserializeResponse);
             }
-            catch (Exception exc)
+            catch (Exception ex)
             {
-                Logger.Warn(exc);
+                Logger.Warn(ex);
                 throw;
             }
 
@@ -238,14 +372,20 @@ namespace Microsoft.MobCAT.Services
         /// <param name="requestUri">Request URI.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
-        /// <param name="jsonRequest">Json request.</param>
+        /// <param name="requestContent">Request content.</param>
+        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <typeparam name="T">The type of response.</typeparam>
-        protected async Task<T> SendAndDeserialize<T>(HttpMethod requestType, string requestUri, CancellationToken cancellationToken = default(CancellationToken),
-            Task<Action<HttpRequestMessage>> modifyRequest = null, string jsonRequest = null)
+        protected async Task<T> SendAndDeserialize<T>(
+            HttpMethod requestType,
+            string requestUri,
+            CancellationToken cancellationToken = default(CancellationToken),
+            Action<HttpRequestMessage> modifyRequest = null,
+            string requestContent = null,
+            bool deserializeResponse = true)
         {
             T result = default(T);
 
-            var response = await SendAsync(requestType, requestUri, cancellationToken, modifyRequest, jsonRequest).ConfigureAwait(false);
+            var response = await SendAsync(requestType, requestUri, cancellationToken, modifyRequest, requestContent).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {
@@ -253,52 +393,32 @@ namespace Microsoft.MobCAT.Services
                 {
                     if (StreamSerializer != null)
                     {
-                        using (var jsonStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                            result = StreamSerializer.Read<T>(jsonStream);
+                        using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                            result = StreamSerializer.Read<T>(responseStream);
                     }
                     else
                     {
-                        var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        if (!string.IsNullOrWhiteSpace(json))
-                            result = Serializer.Deserialize<T>(json);
+                        var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                        if (!string.IsNullOrWhiteSpace(responseString))
+                            result = deserializeResponse ? Serializer.Deserialize<T>(responseString) : (T)Convert.ChangeType(responseString, typeof(T));
                     }
                 }
             }
             else
             {
-                response.EnsureSuccessStatusCode();
+                try
+                {
+                    response.EnsureSuccessStatusCode();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    throw new HttpServiceException(response?.StatusCode ?? HttpStatusCode.ServiceUnavailable, ex);
+                }
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Starts a request to the service
-        /// </summary>
-        /// <returns>Task with return type of HttpResponseMessage.</returns>
-        /// <param name="requestType">Request type.</param>
-        /// <param name="requestUri">Request URI.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <param name="modifyRequest">Modify request.</param>
-        /// <param name="jsonRequest">Json request.</param>
-        protected async Task<HttpResponseMessage> SendAsync(HttpMethod requestType, string requestUri, CancellationToken cancellationToken, Task<Action<HttpRequestMessage>> modifyRequest = null,
-            string jsonRequest = null)
-        {
-            var request = new HttpRequestMessage(requestType, new Uri($"{BaseApiUrl}{requestUri}"));
-
-            if (jsonRequest != null)
-                request.Content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
-
-            if (modifyRequest != null)
-                (await modifyRequest)?.Invoke(request);
-
-            HttpRequestMessageSent?.Invoke(request);
-
-            var response = await _client.SendAsync(request, cancellationToken).ConfigureAwait(false);
-
-            HttpResponseMessageReceived?.Invoke(response);
-
-            return response;
         }
     }
 }
