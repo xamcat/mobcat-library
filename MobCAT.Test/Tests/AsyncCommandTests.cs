@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -9,6 +10,7 @@ using NUnit.Framework;
 public class AsyncCommandTests
 {
     const int CoalescingTestParallelExecutions = 5;
+    TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>();
 
     /// <summary>
     /// Validates that CanExecute returns a value based on the custom CanExecute action when one is provided.
@@ -30,7 +32,7 @@ public class AsyncCommandTests
     [Test, TestCase(TestName = "CanExecute Default Action When Coalescing Disabled Test")]
     public void CanExecuteDefaultActionNoCoalescingTest()
     {
-        ICommand asyncCommand = new AsyncCommand(() => Task.Run(async () => { await Task.Delay(10); }));
+        ICommand asyncCommand = new AsyncCommand(() => Task.Run(async () => { await _tcs.Task; }));
         Assert.IsTrue(asyncCommand.CanExecute(null));
         asyncCommand.Execute(null);
         Assert.IsTrue(asyncCommand.CanExecute(null));
@@ -43,10 +45,11 @@ public class AsyncCommandTests
     [Test, TestCase(TestName = "CanExecute Default Action When Coalescing Enabled Test")]
     public void CanExecuteDefaultActionCoalescingTest()
     {
-        ICommand asyncCommand = new AsyncCommand(() => Task.Run(async () => { await Task.Delay(10); }), true);
+        ICommand asyncCommand = new AsyncCommand(() => Task.Run(async () => { await _tcs.Task; }), true);
         Assert.IsTrue(asyncCommand.CanExecute(null));
         asyncCommand.Execute(null);
         Assert.IsFalse(asyncCommand.CanExecute(null));
+        _tcs.SetResult(true);
     }
 
     /// <summary>
@@ -82,28 +85,37 @@ public class AsyncCommandTests
         bool executed = false;
         ICommand asyncCommand = new AsyncCommand(() => Task.Run(() => { executed = true; }), () => shouldExecute);
         asyncCommand.Execute(null);
-        Assert.That(executed == shouldExecute, Is.EqualTo(executed == shouldExecute).After(delayInMilliseconds: 100, pollingInterval: 10));
+        Assert.That(executed == shouldExecute, Is.EqualTo(executed == shouldExecute).After(delayInMilliseconds: 10, pollingInterval: 1));
     }
 
     void TestCoalescingOption(bool enableCoalescing, int parallelExecutions, int expectedExecutions = 1)
     {
         int executions = 0;
+        TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
 
-        ICommand asyncCommand = new AsyncCommand(() => Task.Run(async () =>
+        ICommand asyncCommand = new AsyncCommand(() => Task.Run(() =>
         {
-            executions++;
-            await Task.Delay(10);
+            Interlocked.Increment(ref executions);
         }), enableCoalescing);
 
-        var tasks = new List<Task>();
+        Task[] tasks = new Task[CoalescingTestParallelExecutions + 1];
 
         for (var i = 0; i < parallelExecutions; i++)
-            tasks.Add(Task.Run(() => asyncCommand.Execute(null)));
+        {
+            tasks[i] = Task.Factory.StartNew(() => asyncCommand.Execute(null));
+        }
 
-        Assert.That(expectedExecutions == executions, Is.EqualTo(expectedExecutions == executions).After(delayInMilliseconds: 100, pollingInterval: 10));
+        tasks[CoalescingTestParallelExecutions] = tcs.Task;
+        tcs.SetResult(true);
+
+        Task.WaitAll(tasks);
+
+        Assert.AreEqual(expectedExecutions, executions); 
 
         Task.Run(() => asyncCommand.Execute(null)).GetAwaiter().GetResult();
 
-        Assert.That(expectedExecutions + 1 == executions, Is.EqualTo(expectedExecutions + 1 == executions).After(delayInMilliseconds: 100, pollingInterval: 10));
+        
+        
+        Assert.AreEqual(expectedExecutions + 1, executions);
     }
 }
