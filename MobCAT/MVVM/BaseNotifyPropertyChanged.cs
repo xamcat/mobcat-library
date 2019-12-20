@@ -32,6 +32,24 @@ namespace Microsoft.MobCAT.MVVM
         }
 
         /// <summary>
+        /// Raises PropertyChanged after updating the backing property with the specified value.
+        /// </summary>
+        /// <returns><c>true</c>, if and update was raised, <c>false</c> otherwise.</returns>
+        /// <param name="shouldRaiseFunc">Func determining whether the backing property should be updated and PropertyChanged should be raised.</param>
+        /// <param name="updateFieldAction">Action for updating the backing property.</param>
+        /// <param name="propertyName">Property name.</param>
+        protected bool RaiseAndUpdate(Func<bool> shouldRaiseFunc, Action updateFieldAction, [CallerMemberName] string propertyName = null)
+        {
+            if (!shouldRaiseFunc())
+                return false;
+
+            updateFieldAction();
+            Raise(propertyName);
+
+            return true;
+        }
+
+        /// <summary>
         /// Raises PropertyChanged for the a named property.
         /// </summary>
         /// <param name="propertyName">Property name.</param>

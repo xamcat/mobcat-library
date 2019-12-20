@@ -1,9 +1,7 @@
-﻿using System;
-using System.IO;
-using Microsoft.MobCAT;
+﻿using System.IO;
 using Microsoft.MobCAT.Services;
 
-namespace MobCAT.Forms.Services
+namespace Microsoft.MobCAT.Forms.Services
 {
     public class FileSystemService : IFileSystemService
     {

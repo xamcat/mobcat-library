@@ -1,5 +1,4 @@
-﻿using System;
-using Foundation;
+﻿using Foundation;
 using Microsoft.MobCAT.Abstractions;
 using Microsoft.MobCAT.iOS.Extensions;
 
