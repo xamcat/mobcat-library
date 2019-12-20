@@ -1,0 +1,28 @@
+﻿<!-- EF Core issues with Xamarin.iOS linking (requiring fallback to no link and large package size): -->
+<!-- https://github.com/xamarin/xamarin-macios/issues/4132 -->
+<!-- https://github.com/xamarin/xamarin-macios/issues/3655 -->
+<!-- https://github.com/xamarin/xamarin-macios/issues/6048 -->
+<linker>
+  <assembly fullname="Microsoft.EntityFrameworkCore">
+    <type fullname="*" />
+  </assembly>
+  <assembly fullname="Microsoft.EntityFrameworkCore.Relational">
+    <type fullname="*" />
+  </assembly>
+  <assembly fullname="Microsoft.EntityFrameworkCore.Sqlite">
+    <type fullname="*" />
+  </assembly>
+  <assembly fullname="Microsoft.Extensions.Logging">
+    <type fullname="*" />
+  </assembly>
+  <assembly fullname="Microsoft.Extensions.Options">
+    <type fullname="*" />
+  </assembly>
+  <assembly fullname="Microsoft.Extensions.Caching.Memory">
+    <type fullname="*" />
+  </assembly>
+  <assembly fullname="System.Core">
+    <type fullname="System.Linq.Expressions.Expression`1"></type>
+    <type fullname="System.Linq.Queryable"></type>
+  </assembly>
+</linker>
