@@ -1,6 +1,4 @@
-﻿using Microsoft.MobCAT.Repository.InMemory;
-
-namespace Microsoft.MobCAT.Repository.InMemory.Test.Models
+﻿namespace Microsoft.MobCAT.Repository.InMemory.Test.Models
 {
     public class InMemorySampleModel : BaseInMemoryModel
     {

@@ -1,6 +1,5 @@
-﻿using Microsoft.MobCAT.Repository.InMemory;
+﻿using Microsoft.MobCAT.Repository.InMemory.Test.Repositories;
 using Microsoft.MobCAT.Repository.Test.Abstractions;
-using Microsoft.MobCAT.Repository.Test.InMemory.Repositories;
 
 namespace Microsoft.MobCAT.Repository.InMemory.Test
 {

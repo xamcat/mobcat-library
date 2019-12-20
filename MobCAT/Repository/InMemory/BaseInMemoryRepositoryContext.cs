@@ -3,7 +3,7 @@ using Microsoft.MobCAT.Repository.Abstractions;
 
 namespace Microsoft.MobCAT.Repository.InMemory
 {
-    public class BaseInMemoryRepositoryStore : IRepositoryContext
+    public class BaseInMemoryRepositoryContext : IRepositoryContext
     {
         protected virtual void OnResetRepositories() { }
 
