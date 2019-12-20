@@ -1,0 +1,24 @@
+﻿<linker>
+  <assembly fullname="Microsoft.EntityFrameworkCore">
+    <type fullname="*" />
+  </assembly>
+  <assembly fullname="Microsoft.EntityFrameworkCore.Relational">
+    <type fullname="*" />
+  </assembly>
+  <assembly fullname="Microsoft.EntityFrameworkCore.Sqlite">
+    <type fullname="*" />
+  </assembly>
+  <assembly fullname="Microsoft.Extensions.Logging">
+    <type fullname="*" />
+  </assembly>
+  <assembly fullname="Microsoft.Extensions.Options">
+    <type fullname="*" />
+  </assembly>
+  <assembly fullname="Microsoft.Extensions.Caching.Memory">
+    <type fullname="*" />
+  </assembly>
+  <assembly fullname="System.Core">
+    <type fullname="System.Linq.Expressions.Expression`1"></type>
+    <type fullname="System.Linq.Queryable"></type>
+  </assembly>
+</linker>

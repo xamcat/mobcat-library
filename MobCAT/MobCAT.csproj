@@ -15,5 +15,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Repository\" />
+    <Folder Include="Repository\Abstractions\" />
+    <Folder Include="Repository\InMemory\" />
   </ItemGroup>
 </Project>
