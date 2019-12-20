@@ -50,6 +50,7 @@ public class AsyncCommandTests
         asyncCommand.Execute(null);
         Assert.IsFalse(asyncCommand.CanExecute(null));
         _tcs.SetResult(true);
+        Assert.IsTrue(asyncCommand.CanExecute(null));
     }
 
     /// <summary>
