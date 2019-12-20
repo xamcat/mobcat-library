@@ -71,14 +71,14 @@ public class AsyncCommandTests
     /// </summary>
     [Test, TestCase(TestName = "Coalescing Enabled Test")]
     public void CoalescingEnabledTest()
-        => TestCoalescingOption(true, CoalescingTestParallelExecutions);
+        => TestCoalescingOptionAsync(true, CoalescingTestParallelExecutions);
 
     /// <summary>
     /// Ensures that multiple executions of the underlying task are possible when the <see cref="AsyncCommand"/> command is configured to do so.
     /// </summary>
     [Test, TestCase(TestName = "Coalescing Disabled Test")]
     public void CoalescingDisabledTest()
-        => TestCoalescingOption(false, CoalescingTestParallelExecutions, CoalescingTestParallelExecutions);
+        => TestCoalescingOptionAsync(false, CoalescingTestParallelExecutions, CoalescingTestParallelExecutions);
 
     void TestExecuteOnCanExecuteBehavior(bool shouldExecute)
     {
@@ -88,7 +88,7 @@ public class AsyncCommandTests
         Assert.That(executed == shouldExecute, Is.EqualTo(executed == shouldExecute).After(delayInMilliseconds: 10, pollingInterval: 1));
     }
 
-    void TestCoalescingOption(bool enableCoalescing, int parallelExecutions, int expectedExecutions = 1)
+    async Task TestCoalescingOptionAsync(bool enableCoalescing, int parallelExecutions, int expectedExecutions = 1)
     {
         int executions = 0;
         TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
@@ -108,7 +108,7 @@ public class AsyncCommandTests
         tasks[CoalescingTestParallelExecutions] = tcs.Task;
         tcs.SetResult(true);
 
-        Task.WaitAll(tasks);
+        await Task.WhenAll(tasks);
 
         Assert.AreEqual(expectedExecutions, executions); 
 
