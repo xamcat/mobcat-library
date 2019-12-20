@@ -6,7 +6,7 @@ namespace Microsoft.MobCAT.Repository.Test
 {
     internal static class TestData
     {
-        internal static IList<SampleModel> GenerateBulkOperationsTestData(int collectioncount)
+		internal static IList<SampleModel> GenerateBulkOperationsTestData(int collectioncount)
         {
             var dataItems = new List<SampleModel>();
 
@@ -16,7 +16,7 @@ namespace Microsoft.MobCAT.Repository.Test
             return dataItems;
         }
 
-        internal static SampleModel GenerateSingleOperationsTestData(int index)
+		internal static SampleModel GenerateSingleOperationsTestData(int index)
         {
             return new SampleModel
             {

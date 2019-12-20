@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{EDA4E78A-4A27-43E0-B465-3908720CAC6D}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Microsoft.MobCAT.Repository.SQLiteNet.Test</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SQLiteNetSampleRepositoryContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SQLiteNetSampleModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Repositories\SQLiteNetSampleRepository.cs" />
+  </ItemGroup>
+</Project>

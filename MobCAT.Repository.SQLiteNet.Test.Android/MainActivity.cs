@@ -29,8 +29,6 @@ namespace Microsoft.MobCAT.Repository.SQLiteNet.Test.Android
                 }
             };
 
-            nunit.AddTestAssembly(typeof(Bootstrap).Assembly);
-
             var storageFilepath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             Bootstrap.Begin((datastoreName) => new SQLiteNetSampleRepositoryContext(Guard.NullOrWhitespace(storageFilepath), datastoreName));
 

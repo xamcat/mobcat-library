@@ -21,6 +21,7 @@
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,13 +46,14 @@
     <NoStdLib>false</NoStdLib>
     <AndroidSigningKeyStore></AndroidSigningKeyStore>
     <AndroidLinkSkip>nunit.runner.Droid</AndroidLinkSkip>
-    <AndroidLinkMode>Full</AndroidLinkMode>
     <BundleAssemblies>true</BundleAssemblies>
     <AotAssemblies>true</AotAssemblies>
     <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
     <EnableLLVM>true</EnableLLVM>
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidLinkTool>r8</AndroidLinkTool>
+    <AndroidLinkMode>Full</AndroidLinkMode>
+    <AndroidUseAapt2>false</AndroidUseAapt2>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -119,14 +121,8 @@
       <Project>{1EFAB302-F673-4194-91AF-F39996625E4C}</Project>
       <Name>MobCAT.Repository.SQLiteNet</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MobCAT.Repository.SQLiteNet.Test\MobCAT.Repository.SQLiteNet.Test.csproj">
-      <Project>{A0099F68-2292-4A57-8A32-CFE68956D91D}</Project>
-      <Name>MobCAT.Repository.SQLiteNet.Test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MobCAT.Repository.Test\MobCAT.Repository.Test.csproj">
-      <Project>{EEF01556-1321-45DB-887E-D6D34A747FD8}</Project>
-      <Name>MobCAT.Repository.Test</Name>
-    </ProjectReference>
   </ItemGroup>
- <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Import Project="..\MobCAT.Repository.Test\MobCAT.Repository.Test.projitems" Label="Shared" Condition="Exists('..\MobCAT.Repository.Test\MobCAT.Repository.Test.projitems')" />
+  <Import Project="..\MobCAT.Repository.SQLiteNet.Test\MobCAT.Repository.SQLiteNet.Test.projitems" Label="Shared" Condition="Exists('..\MobCAT.Repository.SQLiteNet.Test\MobCAT.Repository.SQLiteNet.Test.projitems')" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

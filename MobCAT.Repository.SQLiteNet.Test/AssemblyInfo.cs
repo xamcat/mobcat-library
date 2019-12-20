@@ -1,1 +1,0 @@
-﻿[assembly: Microsoft.MobCAT.Preserve]
