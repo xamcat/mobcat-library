@@ -1,8 +1,8 @@
-﻿using Microsoft.MobCAT.Repositories.InMemory;
-using Microsoft.MobCAT.Repositories.Test.Abstractions;
-using Microsoft.MobCAT.Repositories.Test.InMemory.Repositories;
+﻿using Microsoft.MobCAT.Repository.InMemory;
+using Microsoft.MobCAT.Repository.Test.Abstractions;
+using Microsoft.MobCAT.Repository.Test.InMemory.Repositories;
 
-namespace Microsoft.MobCAT.Repositories.Test.InMemory
+namespace Microsoft.MobCAT.Repository.Test.InMemory
 {
     public class InMemorySampleRepositoryStore : BaseInMemoryRepositoryStore, ISampleRepositoryStore
     {

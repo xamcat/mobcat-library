@@ -1,10 +1,10 @@
 ﻿using System;
-using Microsoft.MobCAT.Repositories.InMemory;
-using Microsoft.MobCAT.Repositories.Test.Abstractions;
-using Microsoft.MobCAT.Repositories.Test.InMemory.Models;
-using Microsoft.MobCAT.Repositories.Test.Models;
+using Microsoft.MobCAT.Repository.InMemory;
+using Microsoft.MobCAT.Repository.Test.Abstractions;
+using Microsoft.MobCAT.Repository.Test.InMemory.Models;
+using Microsoft.MobCAT.Repository.Test.Models;
 
-namespace Microsoft.MobCAT.Repositories.Test.InMemory.Repositories
+namespace Microsoft.MobCAT.Repository.Test.InMemory.Repositories
 {
     public class InMemorySampleRepository : BaseInMemoryRepository<SampleModel, InMemorySampleModel>, ISampleRepository
     {
