@@ -71,14 +71,18 @@ public class AsyncCommandTests
     /// </summary>
     [Test, TestCase(TestName = "Coalescing Enabled Test")]
     public void CoalescingEnabledTest()
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         => TestCoalescingOptionAsync(true, CoalescingTestParallelExecutions);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
     /// <summary>
     /// Ensures that multiple executions of the underlying task are possible when the <see cref="AsyncCommand"/> command is configured to do so.
     /// </summary>
     [Test, TestCase(TestName = "Coalescing Disabled Test")]
     public void CoalescingDisabledTest()
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         => TestCoalescingOptionAsync(false, CoalescingTestParallelExecutions, CoalescingTestParallelExecutions);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
     void TestExecuteOnCanExecuteBehavior(bool shouldExecute)
     {
