@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.MobCAT.Repository.Abstractions;
 
 namespace Microsoft.MobCAT.Repository.InMemory
@@ -8,13 +9,13 @@ namespace Microsoft.MobCAT.Repository.InMemory
         protected virtual void OnResetRepositories() { }
 
         public Task DeleteAsync()
-            => Task.Run(OnResetRepositories);
+            => Task.Run(new Action(OnResetRepositories));
 
         public Task ResetAsync()
-            => Task.Run(OnResetRepositories);
+            => Task.Run(new Action(OnResetRepositories));
 
         public Task SetupAsync()
-            => Task.Run(OnResetRepositories);
+            => Task.Run(new Action(OnResetRepositories));
 
         public void ResetRepositories()
             => OnResetRepositories();
