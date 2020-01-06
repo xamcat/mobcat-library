@@ -37,7 +37,7 @@ namespace Microsoft.MobCAT.Services
         /// <param name="requestContent">Request content.</param>
         /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <typeparam name="T">The type of response.</typeparam>
-        protected override async Task<T> SendAsync<T>(HttpMethod requestType, string requestUri, CancellationToken cancellationToken = default, Action<HttpRequestMessage> modifyRequest = null, string requestContent = null, bool deserializeResponse = false)
+        protected override async Task<T> SendAsync<T>(HttpMethod requestType, string requestUri, CancellationToken cancellationToken = default(CancellationToken), Action<HttpRequestMessage> modifyRequest = null, string requestContent = null, bool deserializeResponse = false)
         {
             T result = default(T);
 
