@@ -62,6 +62,16 @@ namespace Microsoft.MobCAT.Services
         protected HttpClient _client;
 
         /// <summary>
+        /// This message is broadcast before an HttpRequestMessage is sent to the service. This can be especially useful for debugging purposes. 
+        /// </summary>
+        public Action<HttpRequestMessage> HttpRequestMessageSent { get; set; }
+
+        /// <summary>
+        /// This message is broadcast after an HttpResponseMessage is received from the service. This can be especially useful for debugging purposes. 
+        /// </summary>
+        public Action<HttpResponseMessage> HttpResponseMessageReceived { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:Microsoft.MobCat.Core.Services.BaseHttpService"/> class.
         /// </summary>
         /// <param name="baseApiUri">Base API URI.</param>
@@ -275,14 +285,14 @@ namespace Microsoft.MobCAT.Services
         /// <param name="requestUri">Request URI.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequestAction">Modify request action.</param>
-        /// <param name="jsonRequest">Json request.</param>
+        /// <param name="requestContent">Json request.</param>
         protected virtual Task<HttpResponseMessage> SendWithRetryAsync(
             HttpMethod requestType,
             string requestUri,
             CancellationToken cancellationToken = default(CancellationToken),
             Action<HttpRequestMessage> modifyRequestAction = null,
-            string jsonRequest = null)
-            => GetRetryPolicy().ExecuteAsync(() => SendAsync(requestType, requestUri, cancellationToken, modifyRequestAction, jsonRequest));
+            string requestContent = null)
+            => GetRetryPolicy().ExecuteAsync(() => SendAsync(requestType, requestUri, cancellationToken, modifyRequestAction, requestContent));
 
         /// <summary>
         /// Starts a request to the service with retry.
@@ -292,7 +302,7 @@ namespace Microsoft.MobCAT.Services
         /// <param name="requestUri">Request URI.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequestAction">Modify request action.</param>
-        /// <param name="jsonRequest">Json request.</param>
+        /// <param name="requestContent">Json request.</param>
         /// <param name="deserializeResponse">If set to <c>true</c> deserialize response.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
         protected virtual Task<T> SendWithRetryAsync<T>(
@@ -300,9 +310,9 @@ namespace Microsoft.MobCAT.Services
             string requestUri,
             CancellationToken cancellationToken = default(CancellationToken),
             Action<HttpRequestMessage> modifyRequestAction = null,
-            string jsonRequest = null,
+            string requestContent = null,
             bool deserializeResponse = true)
-            => GetRetryPolicy().ExecuteAsync(() => SendAsync<T>(requestType, requestUri, cancellationToken, modifyRequestAction, jsonRequest, deserializeResponse));
+            => GetRetryPolicy().ExecuteAsync(() => SendAsync<T>(requestType, requestUri, cancellationToken, modifyRequestAction, requestContent, deserializeResponse));
 
         /// <summary>
         /// Starts a request to the service
@@ -313,7 +323,7 @@ namespace Microsoft.MobCAT.Services
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
         /// <param name="requestContent">Json request.</param>
-        protected Task<HttpResponseMessage> SendAsync(
+        protected async Task<HttpResponseMessage> SendAsync(
             HttpMethod requestType,
             string requestUri,
             CancellationToken cancellationToken,
@@ -327,7 +337,13 @@ namespace Microsoft.MobCAT.Services
 
             modifyRequest?.Invoke(request);
 
-            return _client.SendAsync(request, cancellationToken);
+            HttpRequestMessageSent?.Invoke(request);
+
+            var response = await _client.SendAsync(request, cancellationToken).ConfigureAwait(false);
+
+            HttpResponseMessageReceived?.Invoke(response);
+
+            return response;
         }
 
         /// <summary>
