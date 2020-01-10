@@ -1,5 +1,5 @@
 # Repository Pattern with Entity Framework Core
-This walkthrough demonstrates how to implement the **Repository Pattern** with **Entity Framework Core (EF Core)** using the base classes provided by the **MobCAT** and **MobCAT.Repositories.EntityFrameworkCore** libraries. 
+This walkthrough demonstrates how to implement the **Repository Pattern** with **Entity Framework Core (EF Core)** using the base classes provided by the **MobCAT** and **MobCAT.Repository.EntityFrameworkCore** libraries. 
 
 This is arranged into the following high-level steps:
 1. [Solution Setup](#solution-setup)
@@ -8,7 +8,7 @@ This is arranged into the following high-level steps:
 4. [Try it out](#try-it-out)
 
 ## Prerequisites
-This walkthrough assumes that you have the **MobCAT** library source code or **NuGet** package that can be referenced as a project or a package. See [Getting started with MobCAT](mobcat-gettingstarted.md).
+This walkthrough assumes that you have the **MobCAT** and **MobCAT.Repository.EntityFrameworkCore** source code that can be referenced as a project or you have made these available as **NuGet** packages. See [Getting started with MobCAT](mobcat-gettingstarted.md).
 
 ## Solution Setup
 
@@ -18,7 +18,7 @@ This walkthrough assumes that you have the **MobCAT** library source code or **N
 4. Create a new **netstandard** project for the **EF Core** implementation of the data concerns e.g. **SampleApp.Data.EntityFrameworkCore**
 5. Reference the **MobCAT** library and **SampleApp.Data** in all projects
 6. Add a reference to **SampleApp.Data.EntityFrameworkCore** in the platform targets 
-7. Add the **Microsoft.EntityFrameworkCore** and **Microsoft.EntityFrameworkCore.Sqlite** **NuGet** packages to **SampleApp.Data.EntityFrameworkCore** and both platform targets
+7. Add the **Microsoft.EntityFrameworkCore**, **Microsoft.EntityFrameworkCore.Sqlite**, and **MobCAT.Repository.EntityFrameworkCore** **NuGet** packages to **SampleApp.Data.EntityFrameworkCore** and both platform targets
 8. Add the **Newtonsoft.Json** and **Polly** **NuGet** packages to the platform targets
 
 ## Define Common Repository Types
@@ -49,7 +49,7 @@ This walkthrough assumes that you have the **MobCAT** library source code or **N
    ```
 
 ## Build the **EF Core** implementation
-1. In **SampleApp.Data.EntityFrameworkCore**, add a new class called **EFCoreSampleModel** deriving from **BaseEFCoreNetModel** with the following implementation  
+1. In **SampleApp.Data.EntityFrameworkCore**, add a new class called **EFCoreSampleModel** deriving from **BaseEFCoreModel** with the following implementation  
 
    ```cs
    public class EFCoreSampleModel : BaseEFCoreModel
@@ -125,7 +125,7 @@ This walkthrough assumes that you have the **MobCAT** library source code or **N
       ```cs
       public static class Bootstrap
       {
-         const string DatastoreName = "sqlitenet_datastore";
+         const string DatastoreName = "efcore_datastore";
 
          public static void Begin(Func<string, ISampleRepositoryContext> sampleRepositoryContext)
             => ServiceContainer.Register(sampleRepositoryContext(DatastoreName));
@@ -140,7 +140,7 @@ This walkthrough assumes that you have the **MobCAT** library source code or **N
       Bootstrap.Begin((datastoreName) => new EFCoreSampleRepositoryContext(storageFilepath, datastoreName));
       ```
 
-      **NOTE:** We are passing in a **Func** to resolve a new instance of **EFCoreSampleRepositoryContext** as the **ISampleRepository** implementation at the appropriate juncture. The **storageFilepath** represents the location where the **SQLite** database will be created
+      **NOTE:** We are passing in a **Func** to resolve a new instance of **EFCoreSampleRepositoryContext** as the **ISampleRepositoryContext** implementation at the appropriate juncture. The **storageFilepath** represents the location where the **SQLite** database will be created
 
 9. In **AppDelegate**, within the **iOS** target, update the **FinishedLaunching** method in the same manner resolving the **storageFilepath** to the **Library** directory instead
 

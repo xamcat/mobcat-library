@@ -8,7 +8,7 @@ There are three high-level components in the standard [Repository Pattern](https
 ![Repository Pattern Illustration](illustrations/repository_pattern_illustration.png)
 
 **Business Logic:**  
-The client application business logic executes the queries and commands on a **Repository** (or **Repository Store**) using business models that are agnostic to the underlying data store.
+The client application business logic executes the queries and commands on a **Repository** (or **Repository Context**) using business models that are agnostic to the underlying data store.
 
 **Data Store:**  
 The underlying data store executes (or has executed on it) commands and queries specific to that store and works with the entities or models associated with it. This is handled via an intermediary object or framework component in many cases such as a database connection or context.
@@ -46,10 +46,10 @@ Each implementation is built using the following base classes:
 - [BaseRepository](#baserepository)
 - [BaseRepositoryContext](#baserepositorycontext)
 
-### [BaseModel](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/Repositories/BaseModel.cs)
-Optional base class for business model objects. Defines a single Id **Property**.
+### [BaseModel](../MobCAT/Repositories/BaseModel.cs)
+Optional base class for business model objects. Defines a single *Id* **Property**.
 
-### [BaseRepository](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/Repositories/BaseRepository.cs)
+### [BaseRepository](../MobCAT/Repositories/BaseRepository.cs)
 Base class for storage specific **Repository** base classes implementing **IBaseRepository&lt;T>** where **T** is the agnostic business type. Encapsulates common functionality such as data mapping, recommended practices such as [retry](https://docs.microsoft.com/en-us/azure/architecture/patterns/retry) policies, and the implementation of common CRUD (Create, Read, Update, Delete) and other operations. Exposes virtual methods for handling those aspects that are specific to a given data store minimizing code duplication.
 
 #### Indicative Usage
@@ -85,7 +85,7 @@ public class BaseCustomRepository<T, T2> : BaseRepository<T, T2, CustomException
 }
 ```
 
-### [BaseRepositoryContext](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/Repositories/BaseRepositoryContext.cs)
+### [BaseRepositoryContext](../MobCAT/Repositories/BaseRepositoryContext.cs)
 Base class for storage specific **RepositoryContext** base classes implementing **IBaseRepositoryContext&lt;T>** where **T** is the **Connection/Context** intermediary object or framework component that is used to connect to and/or execute commands and queries against the respective data store. Encapsulates the initialization and management of the **Connection/Context** object as well as the creation and handling of the individual **Repositories** associated with it. Exposes virtual methods for handling those aspects that are specific to a given data store minimizing code duplication.
 
 #### Indicative Usage
@@ -112,4 +112,4 @@ public class BaseCustomRepositoryContext : BaseRepositoryContext<CustomConnectio
 }
 ```
 
-**NOTE:** For data stores that do not require the use of a local file, it is possible to implement the **IRepositoryContext** interface directly. See **[BaseInMemoryRepositoryContext](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/Repositories/BaseInMemoryRepositoryContext.cs)** as an example.
+**NOTE:** For data stores that do not require the use of a local file, it is possible to implement the **IRepositoryContext** interface directly. See **[BaseInMemoryRepositoryContext](../MobCAT/Repositories/BaseInMemoryRepositoryContext.cs)** as an example.

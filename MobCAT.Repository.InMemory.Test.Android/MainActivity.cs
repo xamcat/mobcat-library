@@ -3,7 +3,6 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using NUnit.Runner.Services;
-using Microsoft.MobCAT.Repository.Test;
 
 namespace Microsoft.MobCAT.Repository.InMemory.Test.Android
 {
@@ -29,7 +28,7 @@ namespace Microsoft.MobCAT.Repository.InMemory.Test.Android
                 }
             };
 
-            Bootstrap.Begin((datastoreName) => new InMemorySampleRepositoryContext());
+            Microsoft.MobCAT.Repository.Test.Bootstrap.Begin((datastoreName) => new InMemorySampleRepositoryContext());
 
             LoadApplication(nunit);
         }

@@ -203,7 +203,6 @@ namespace Microsoft.MobCAT.Services
         /// <param name="obj">Payload of request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
-        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <returns>A task.</returns>
         protected virtual async Task PutAsync<T>(
             string requestUri,
@@ -264,7 +263,6 @@ namespace Microsoft.MobCAT.Services
         /// <param name="obj">Payload of request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="modifyRequest">Modify request.</param>
-        /// <param name="deserializeResponse">Indicates whether the reponse should be deserialized or returned directly.</param>
         /// <typeparam name="T">The type of payload.</typeparam>
         protected virtual async Task PostAsync<T>(
             string requestUri,

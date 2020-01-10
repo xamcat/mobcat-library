@@ -16,10 +16,10 @@ In this project, you can find foundational components that can be leveraged in b
 
 Core components:
 
-- [BaseHttpService.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/Services/BaseHttpService.cs)
-- [Guard.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/Guard.cs)
-- [Logger.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/Logger.cs)
-- [ServiceContainer.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/ServiceContainer.cs)
+- [BaseHttpService.cs](MobCAT/Services/BaseHttpService.cs)
+- [Guard.cs](MobCAT/Guard.cs)
+- [Logger.cs](MobCAT/Logger.cs)
+- [ServiceContainer.cs](MobCAT/ServiceContainer.cs)
 
 See [Foundational Components Overview](docs/foundational_components.md) for more information. 
 
@@ -30,26 +30,26 @@ The [Model-View-ViewModel Pattern](https://docs.microsoft.com/en-us/xamarin/xama
 
 Useful files:  
 
-- [AsyncCommand.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/MVVM/AsyncCommand.cs)
-- [BaseNotifyPropertyChanged.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/MVVM/BaseNotifyPropertyChanged.cs)
-- [BaseViewModel.cs](https://github.com/xamarin/mobcat/blob/master/mobcat_shared/MobCAT/MVVM/BaseViewModel.cs)
-- [BaseNavigationViewModel.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/MVVM/BaseNavigationViewModel.cs)
-- [Command.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/MVVM/Command.cs)
-- [VirtualCollection.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/MVVM/VirtualCollection.cs)
+- [AsyncCommand.cs](MobCAT/MVVM/AsyncCommand.cs)
+- [BaseNotifyPropertyChanged.cs](MobCAT/MVVM/BaseNotifyPropertyChanged.cs)
+- [BaseViewModel.cs](MobCAT/MVVM/BaseViewModel.cs)
+- [BaseNavigationViewModel.cs](MobCAT/MVVM/BaseNavigationViewModel.cs)
+- [Command.cs](MobCAT/MVVM/Command.cs)
+- [VirtualCollection.cs](MobCAT/MVVM/VirtualCollection.cs)
 
 See [MVVM Overview](docs/mvvm.md) for more information. 
 
 ### Repository
 The [Repository Pattern](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design#the-repository-pattern) is a well-documented way of working with a data source whereby the underlying storage mechanism is decoupled from the storage intent through an abstraction. This enables the centralization of storage related code making unit testing of business logic easier and driving greater code re-use across solutions.  
 
-The **MobCAT** library provides a basic implementation of this pattern through a common abstraction and a set of base classes along with implementations for popular frameworks such as [sqlite-net](https://github.com/praeclarum/sqlite-net) and [Entity Framework Core](ttps://docs.microsoft.com/en-us/ef/core/) along with an in-memory implementation to aid in testing and prototyping.  
+The **MobCAT** library provides a basic foundation for this pattern through a common abstraction and a set of base classes along with implementations for popular frameworks such as [sqlite-net](https://github.com/praeclarum/sqlite-net) and [Entity Framework Core](ttps://docs.microsoft.com/en-us/ef/core/) along with an in-memory implementation to aid in testing and prototyping.  
 
 See the [Repository Pattern Overview](docs/repository.md) for more information.
 
 Useful files:
 
-- [BaseRepository.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/Repositories/BaseRepository.cs)
-- [BaseRepositoryStore.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/Repositories/BaseRepositoryStore.cs)
+- [BaseRepository.cs](MobCAT/Repositories/BaseRepository.cs)
+- [BaseRepositoryContext.cs](MobCAT/Repositories/BaseRepositoryContext.cs)
 
 Walkthroughs: 
 
@@ -67,10 +67,10 @@ In this project you can find components, specific to Xamarin.Forms, to support c
 
 Useful files:
 
-- [BaseBehavior.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT.Forms/Behaviors/BaseBehavior.cs)
-- [BaseContentPage.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT.Forms/Pages/BaseContentPage.cs)
-- [BaseNavigationPage.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT.Forms/Pages/BaseNavigationPage.cs)
-- [InfiniteListView.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT.Forms/Controls/InfiniteListView.cs)
-- [NavigationService.cs](https://github.com/xamcat/mobcat-library/blob/master/MobCAT.Forms/Services/NavigationService.cs)
+- [BaseBehavior.cs](MobCAT.Forms/Behaviors/BaseBehavior.cs)
+- [BaseContentPage.cs](MobCAT.Forms/Pages/BaseContentPage.cs)
+- [BaseNavigationPage.cs](MobCAT.Forms/Pages/BaseNavigationPage.cs)
+- [InfiniteListView.cs](MobCAT.Forms/Controls/InfiniteListView.cs)
+- [NavigationService.cs](MobCAT.Forms/Services/NavigationService.cs)
 
 See the [MobCAT.Forms Overview](docs/forms.md) for more information.
