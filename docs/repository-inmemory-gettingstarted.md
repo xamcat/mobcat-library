@@ -130,7 +130,7 @@ This walkthrough assumes that you have the **MobCAT** library source code or **N
    Bootstrap.Begin(() => new InMemorySampleRepositoryContext());
    ```
 
-   **NOTE:** We are passing in a **Func** to resolve a new instance of **InMemoryRepositoryContext** as the **ISampleRepository** implementation at the appropriate juncture
+   **NOTE:** We are passing in a **Func** to resolve a new instance of **InMemoryRepositoryContext** as the **ISampleRepositoryContext** implementation at the appropriate juncture
 
 9. In **AppDelegate**, within the **iOS** target, update the **FinishedLaunching** method in the same manner
 

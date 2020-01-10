@@ -6,7 +6,7 @@ The **MobCAT** project includes building blocks to simplify the implementation o
 - [Robust http services using BaseHttpService](#robust-http-services-using-basehttpservice)
 - [Simplification of validation and logging with Guard and Logger](#simplification-of-validation-and-logging-with-guard-and-logger)
 
-## IoC (Inversation of Control) using Service Container
+## IoC (Inversion of Control) using Service Container
 There are many techniques and supporting libraries available for implementing **IoC (Inversion of Control)**. Common implementations of this pattern include **[Dependency Injection](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/enterprise-application-patterns/dependency-injection)** and **[Service Locator](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff648968(v=pandp.10))**.   
 
 The **MobCAT** library includes a **ServiceContainer** class as a light-weight and simple mechanism for implementing the **[Service Locator Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff648968(v=pandp.10))** since it is quick to get started with and is more than sufficient in many cases. 
@@ -106,7 +106,7 @@ public class MyHttpService : BaseHttpService, IMyHttpService
 ```
 
 ### Request Permutations
-For those high-level request methods that expect return values from the response, the default behavior is to obtain that value through deserializing the content based on the specified type. In some cases, deserialization is not required and so this can be changed to return the raw response instead.
+For those high-level request methods that expect return values from the response, the default behavior is to obtain that value through deserializing the content based on the specified type. In some cases, deserialization is not required and so this can be changed to return the value from the **HttpResponseMessage** directly instead.
 
 ```cs
 _myHttpService.GetAsync<bool>(MyOtherGetEndpoint, cancellationToken, null, false);
@@ -127,20 +127,22 @@ var response = await _myHttpService.PutAsync<ResponseModel, MyItem>(MyItemsEndpo
 ### Commonly Used Capabilities  
 
 #### Setting Default Request Headers
-Defines the headers that persist across **HttpClient** requests. Typically performed as a one-off action, but could also be used to change values to reflect changes. Specifying *true* in the first **shouldClear** parameter will clear all previous default headers.
+Defines the headers that persist across **HttpClient** requests. Typically performed as a one-off action, but could also be used to update the values to reflect changes. Specifying *true* in the first **shouldClear** parameter will clear all previous default headers.
 ```cs
 _myHttpService.SetDefaultRequestHeaders(false, new KeyValuePair<string, string>("api_key", "<api_key_value>"));
 ```
 
 #### Modifying Http Client
-Enables use of the underling **HttpClient** object directly.
+You can modify the underlying **HttpClient** object from another class the using the ModifyHttpClient method.
 
 ```cs
 _myHttpService.ModifyHttpClient((client) => client.Timeout = TimeSpan.FromMilliseconds(5000));
 ```
 
-#### Modifying the HttpRequest
-It is possible to modify the underlying **HttpRequest** before it is sent. For example, adding headers specific to a subset of operations or ad-hoc manipulation of the request uri.
+The underlying **HttpClient** can be used directly by the derived class via the protected **_client** member.  
+
+#### Modifying the HttpRequestMessage
+It is possible to modify the underlying **HttpRequestMessage** before it is sent. For example, adding headers specific to a subset of operations or ad-hoc manipulation of the request uri.
 
 ```cs
 Task<IEnumerable<MyItem>> GetItemsAsync()
@@ -151,6 +153,14 @@ Task<IEnumerable<MyItem>> GetItemsAsync()
 
 void ModifyGetAsyncRequest(HttpRequestMessage request)
    => request.Headers.Add("header_name", "header_value");
+```
+
+#### Working with the HttpResponseMessage directly
+
+The non-generic **SendAsync** and **SendWithRetryAsync** methods will return the raw **HttpResponseMessage** directly allowing for greater control of any post-processing or deserialization where necessary. 
+
+```cs
+var response = await _myHttpService.SendAsync(HttpMethod.Get, requestUri);
 ```
 
 ### Debugging

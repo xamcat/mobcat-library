@@ -10,7 +10,7 @@ The **MobCAT.Forms** project includes building blocks, for those applications bu
 
 
 ## Base Pages in support of MVVM
-Primary base class for **Xamarin.Forms** **Pages** implementing the **MVVM Pattern** using the **MobCAT** library. Simplifies the initialization of a given **ViewModel** and setting it as the **ContentPage** **BindingContext**. Enables **Pages** to be initialized and navigated to from **ViewModel** classes while remaining decoupled from **Xamarin.Forms**. Derives from the standard Xamarin.Forms **ContentPage**.
+The **BaseContentPage** is the primary base class for **Xamarin.Forms** **Pages** implementing the **MVVM Pattern** using the **MobCAT** library. It simplifies the initialization of a given **ViewModel** and sets it as the **ContentPage** **BindingContext**. Enables **Pages** to be initialized and navigated to from **ViewModel** classes while remaining decoupled from **Xamarin.Forms**. Derives from the standard Xamarin.Forms **ContentPage**.
 
 #### Indicative Usage
 
@@ -49,8 +49,6 @@ There are other specialized **Page** base classes. These include:
 
 **BaseNavigationPage**  
 Derives from the standard Xamarin.Forms **NavigationPage** adding support for traditional Xamarin.Forms navigation.  
-
---> **REVIEW:** There seems to be little point in this page?? <--
 
 **BaseTabbedPage**  
 Derives from the standard Xamarin.Forms **TabbedPage** simplifying the initialization of a given **ViewModel** and setting it as the **ContentPage** **BindingContext** in a similar manner to the **BaseContentPage** class but extended to support this for each page hosted by the **TabbedPage**.

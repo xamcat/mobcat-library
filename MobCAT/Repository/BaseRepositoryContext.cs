@@ -19,11 +19,12 @@ namespace Microsoft.MobCAT.Repository
         /// </summary>
         /// <param name="folderPath">Filepath representing the storage location for the datastore.</param>
         /// <param name="datastoreName">Name of the datastore without extension.</param>
-        public BaseRepositoryContext(string folderPath, string datastoreName)
+        /// <param name="datastoreFileExtension">The extension for the datastore file e.g. db3 for SQLite databases.</param>
+        public BaseRepositoryContext(string folderPath, string datastoreName, string datastoreFileExtension = "db3")
         {
             Guard.NullOrWhitespace(folderPath);
             Guard.NullOrWhitespace(datastoreName);
-            DatastoreName = $"{datastoreName}.db3";
+            DatastoreName = $"{datastoreName}.{datastoreFileExtension}";
             DatastoreFilepath = Path.Combine(folderPath, datastoreName);
             SetupAsync().ConfigureAwait(false); 
         }

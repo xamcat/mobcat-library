@@ -3,7 +3,6 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using NUnit.Runner.Services;
-using Microsoft.MobCAT.Repository.Test;
 
 namespace Microsoft.MobCAT.Repository.SQLiteNet.Test.Android
 {
@@ -30,7 +29,7 @@ namespace Microsoft.MobCAT.Repository.SQLiteNet.Test.Android
             };
 
             var storageFilepath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            Bootstrap.Begin((datastoreName) => new SQLiteNetSampleRepositoryContext(Guard.NullOrWhitespace(storageFilepath), datastoreName));
+            Microsoft.MobCAT.Repository.Test.Bootstrap.Begin((datastoreName) => new SQLiteNetSampleRepositoryContext(Guard.NullOrWhitespace(storageFilepath), datastoreName));
 
             LoadApplication(nunit);
         }

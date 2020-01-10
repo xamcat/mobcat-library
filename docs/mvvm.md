@@ -11,13 +11,13 @@ There are three core components in the [MVVM Pattern](https://docs.microsoft.com
 Encapsulates the data used by the application. It represents the domain model which can be data along with business and validation logic. These can include DTOs (data transfer objects), POCOs (plain old CLR objects), as well as generated entity or proxy objects. 
 
 **View:**  
-Represents the appearance of what the user sees on the screen. A **View** is often defined separately to the code that underpins it. For example, AXML on Android, Storyboards on iOS, or XAML for UWP or Xamarin.Forms apps. A code-first approach can also be used and may be preferred. Both are valid and have their pros and cons. It is recommended that **View** related code contains only logic that implements visual behavior and does not contain any business logic.
+Represents what the user sees on the screen. A **View** is often defined separately to the code that underpins it. For example, AXML on Android, Storyboards on iOS, or XAML for UWP or Xamarin.Forms apps. A code-first approach can also be used and may be preferred. Both are valid and have their pros and cons. It is recommended that **View** related code contains only logic that implements visual behavior and does not contain any business logic.
 
 **ViewModel:**  
-Defines the functionality and data to be represented by the **View** and coordinates the **View** interactions and changes to **Model** classes that underpin it. The **ViewModel** typically exposes **Properties** and **Commands** that both informs the state of the **View** and can be used to notify of state changes or user input. 
+Defines the functionality and data to be represented by the **View** and coordinates the **View** interactions and changes to any **Model** classes that underpin it. The **ViewModel** typically exposes **Properties** and **Commands** that both informs the state of the **View** and can be used to notify of state changes or user input. 
 
 
- The relevant supporting components can be found in [MobCAT/MVVM](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/MVVM). Some of these are described in further detail below.  
+The relevant supporting components can be found in [../MobCAT/MVVM](MobCAT/MVVM). Some of these are described in further detail below.  
 
  ## MobCAT Components
 The **MobCAT** library provides a basic implementation of this pattern through a set of base classes, interfaces, and concrete implementations.  
@@ -28,13 +28,15 @@ The **MobCAT** library provides a basic implementation of this pattern through a
 - [IValueConverter](#ivalueconverter)
 - [VirtualCollection](#virtualcollection)
 
- ### [AsyncCommand](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/MVVM/AsyncCommand.cs) and [Command](https://github.com/xamcat/mobcat-library/tree/master/MobCAT/MVVM/Command.cs)  
+ ### [AsyncCommand](../MobCAT/MVVM/AsyncCommand.cs) and [Command](../MobCAT/MVVM/Command.cs)  
 Implementations for asynchronous and synchronous bindable commands using the **ICommand** interface. 
 
 #### Indicative Usage
+
+The asynchronous variant is typically used in the following way
+
 ```cs
 AsyncCommand _myCommand;
-Task _doSomethingTask;
 
 public ICommand MyCommand => 
    _myCommand ??
@@ -43,18 +45,48 @@ public ICommand MyCommand =>
 Task ExecuteMyCommandAsync(object arg = null)
    => DoSomethingAsync()
 
-Task DoSomethingAsync()
-{
-   if (_doSomethingTask == null || _doSomethingTask.IsCompleted)
-         _doSomethingTask = DoSomethingTask();
+bool MyCommandCanExecute(object arg = null) 
+   => bool CanDoSomething();
 
-   return _doSomethingTask;
-}
+async Task DoSomethingAsync() {}
 
-async Task DoSomethingTask() { ... }
+bool CanDoSomething() => true;
+```
+
+By default, the underlying **Task** is run each time the **Execute** or **ExecuteAsync** is invoked. However, you can change this behavior using the **enableCoalescing** parameter. When set to *true*, the **ExecuteAsync** method will return a reference to the same **Task** for subsequent invocations until the **Task** is complete. 
+
+```cs
+AsyncCommand _myCommand = new AsyncCommand(ExecuteMyCommandAsync, MyCommandCanExecute, true)
+```
+
+The **Command** class is essentially the same but it accepts **Action** parameters rather than a **Task** for **execute** and **canExecute**. 
+
+```cs
+Command _myCommand;
+
+public ICommand MyCommand => 
+   _myCommand ??
+   (_myCommand = new Command(ExecuteMyCommand, MyCommandCanExecute));
+
+void ExecuteMyCommand(object arg = null)
+   => DoSomething()
 
 bool MyCommandCanExecute(object arg = null) 
-   => _doSomethingTask == null || _doSomethingTask.IsCompleted;
+   => bool CanDoSomething();
+
+void DoSomething() {}
+
+bool CanDoSomething() => true;
+```
+
+There is a generic variant of the **Command** class that casts the **Execute** and **CanExecute** object parameter to the specified type **T**. 
+
+```cs
+Command<string> _myCommand = new Command<string>(ExecuteMyCommand, MyCommandCanExecute);
+...
+
+void ExecuteMyCommand(string arg = null) {}
+bool MyCommandCanExecute(string arg = null) {}
 ```
 
 ### [BaseNotifyPropertyChanged](https://github.com/xamcat/mobcat-library/blob/master/MobCAT/MVVM/BaseNotifyPropertyChanged.cs)  

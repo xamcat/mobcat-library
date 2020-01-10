@@ -1,6 +1,5 @@
 ﻿using Foundation;
 using Microsoft.MobCAT.Repository.InMemory.Test;
-using Microsoft.MobCAT.Repository.Test;
 using NUnit.Runner.Services;
 using UIKit;
 
@@ -22,7 +21,7 @@ namespace Microsoft.MobCAT.Repositories.InMemory.Test.iOS
                 }
             };
 
-            Bootstrap.Begin((datastoreName) => new InMemorySampleRepositoryContext());
+            Microsoft.MobCAT.Repository.Test.Bootstrap.Begin((datastoreName) => new InMemorySampleRepositoryContext());
 
             LoadApplication(nunit);
 

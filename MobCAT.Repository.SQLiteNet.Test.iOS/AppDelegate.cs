@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Foundation;
-using Microsoft.MobCAT.Repository.Test;
 using NUnit.Runner.Services;
 using UIKit;
 
@@ -24,7 +23,7 @@ namespace Microsoft.MobCAT.Repository.SQLiteNet.Test.iOS
             };
 
             var storageFilepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "..", "Library");
-            Bootstrap.Begin((datastoreName) => new SQLiteNetSampleRepositoryContext(Guard.NullOrWhitespace(storageFilepath), datastoreName));
+            Microsoft.MobCAT.Repository.Test.Bootstrap.Begin((datastoreName) => new SQLiteNetSampleRepositoryContext(Guard.NullOrWhitespace(storageFilepath), datastoreName));
 
             LoadApplication(nunit);
 

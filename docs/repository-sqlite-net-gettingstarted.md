@@ -8,7 +8,7 @@ This is arranged into the following high-level steps:
 4. [Try it out](#try-it-out)
 
 ## Prerequisites
-This walkthrough assumes that you have the **MobCAT** library source code or **NuGet** package that can be referenced as a project or a package. See [Getting started with MobCAT](mobcat-gettingstarted.md).
+This walkthrough assumes that you have the **MobCAT** and **MobCAT.Repository.SqliteNet** source code that can be referenced as a project or you have made these available as **NuGet** packages. See [Getting started with MobCAT](mobcat-gettingstarted.md).
 
 ## Solution Setup
 
@@ -18,7 +18,7 @@ This walkthrough assumes that you have the **MobCAT** library source code or **N
 4. Create a new **netstandard** project for the **sqlite-net** implementation of the data concerns e.g. **SampleApp.Data.SqliteNet**
 5. Reference the **MobCAT** library and **SampleApp.Data** in all projects
 6. Add a reference to **SampleApp.Data.SqliteNet** in the platform targets 
-7. Add the **sqlite-net-pcl** **NuGet** package to **SampleApp.Data.SqliteNet** and both platform targets
+7. Add the **sqlite-net-pcl** **NuGet** and **MobCAT.Repository.SQLiteNet** packages to **SampleApp.Data.SqliteNet** and both platform targets
 8. Add the **Newtonsoft.Json** and **Polly** **NuGet** packages to the platform targets
 
 ## Define Common Repository Types
@@ -61,7 +61,7 @@ This walkthrough assumes that you have the **MobCAT** library source code or **N
 
       **NOTE:** The types and names of the **Properties** are purposefully different to the **SampleModel** to make the data mapping exercise more involved  
 
-2. In **SampleApp.Data.SqliteNet**, add a new class called **SQLiteNetSampleRepository** deriving from **BaseSqliteNetRepository** and implementing the **ISampleRepository** interface. The constructor should take a **SQLiteAsyncConnection** parameter so it can be passed into the **BaseSQLiteNetRepository** base class
+2. In **SampleApp.Data.SqliteNet**, add a new class called **SQLiteNetSampleRepository** deriving from **BaseSQLiteNetRepository** and implementing the **ISampleRepository** interface. The constructor should take a **SQLiteAsyncConnection** parameter so it can be passed into the **BaseSQLiteNetRepository** base class
 
     ```cs
     public class SQLiteNetSampleRepository : BaseSQLiteNetRepository<SampleModel, SQLiteNetSampleModel>, ISampleRepository  
@@ -92,7 +92,7 @@ This walkthrough assumes that you have the **MobCAT** library source code or **N
 
       **NOTE:** There are no additional operations defined by the **ISampleRepository**.
 
-4. In **SampleApp.Data.SqliteNet**, add a new class called **SQLiteNetSampleRepositoryContext** deriving from **BaseSqliteNetRepositoryContext** and implementing the **ISampleRepositoryContext** interface. The constructor should take two string parameters, **folderPath** and **datastoreName**, so they can be passed into the **BaseSQLiteNetRepository** base class
+4. In **SampleApp.Data.SqliteNet**, add a new class called **SQLiteNetSampleRepositoryContext** deriving from **BaseSQLiteNetRepositoryContext** and implementing the **ISampleRepositoryContext** interface. The constructor should take two string parameters, **folderPath** and **datastoreName**, so they can be passed into the **BaseSQLiteNetRepository** base class
 
       ```cs
       public class SQLiteNetSampleRepositoryContext : BaseSQLiteNetRepositoryContext, ISampleRepositoryContext
@@ -104,7 +104,7 @@ This walkthrough assumes that you have the **MobCAT** library source code or **N
       }
       ```
 
-5. Update **SQLiteNetSampleRepositoryContext** so it instantiates the **ISampleRepository** implementation in a lazy loading manner passing in the shared **Connection** from the base class
+5. Update **SQLiteNetSampleRepositoryContext** so it instantiates the **ISampleRepositoryContext** implementation in a lazy loading manner passing in the shared **Connection** from the base class
 
       ```cs
       ISampleRepository _sampleRepository;
@@ -139,7 +139,7 @@ This walkthrough assumes that you have the **MobCAT** library source code or **N
       Bootstrap.Begin((datastoreName) => new SQLiteNetSampleRepositoryContext(storageFilepath, datastoreName));
       ```
 
-      **NOTE:** We are passing in a **Func** to resolve a new instance of **SQLiteNetSampleRepositoryContext** as the **ISampleRepository** implementation at the appropriate juncture. The **storageFilepath** represents the location where the **SQLite** database will be created
+      **NOTE:** We are passing in a **Func** to resolve a new instance of **SQLiteNetSampleRepositoryContext** as the **ISampleRepositoryContext** implementation at the appropriate juncture. The **storageFilepath** represents the location where the **SQLite** database will be created
 
 9. In **AppDelegate**, within the **iOS** target, update the **FinishedLaunching** method in the same manner resolving the **storageFilepath** to the **Library** directory instead
 
