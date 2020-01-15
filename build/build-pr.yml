@@ -96,7 +96,7 @@ stages:
     - task: NuGetCommand@2
       displayName: 'NuGet restore'
       inputs:
-        restoreSolution: MobCAT.sln
+        restoreSolution: MobCAT.Test/MobCAT.Test.csproj
 
     - task: MSBuild@1
       displayName: 'Build Tests'
