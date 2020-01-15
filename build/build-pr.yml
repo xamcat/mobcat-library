@@ -13,11 +13,11 @@ stages:
         - msbuild
 
     steps:
-    - task: UseDotNet@2
-      displayName: 'Use .NET Core sdk'
-      inputs:
-        packageType: sdk
-        version: $(DotNetVersion)
+    # - task: UseDotNet@2
+    #   displayName: 'Use .NET Core sdk'
+    #   inputs:
+    #     packageType: sdk
+    #     version: $(DotNetVersion)
 
     - task: Bash@3
       displayName: Set Mono Version $(MonoVersion)
