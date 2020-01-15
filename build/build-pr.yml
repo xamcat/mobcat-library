@@ -18,6 +18,13 @@ stages:
       inputs:
         packageType: sdk
         version: $(DotNetVersion)
+
+    - task: Bash@3
+      displayName: Set Mono Version $(MonoVersion)
+      inputs:
+        targetType: 'inline'
+        script: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)'
+    
     - task: NuGetToolInstaller@1
       displayName: Use Nuget $(NugetVersion)
       inputs:
