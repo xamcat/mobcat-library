@@ -59,3 +59,15 @@ stages:
       inputs:
         solution: 'MobCAT.iOS/MobCAT.iOS.csproj'
         configuration: '$(BuildConfiguration)'
+
+    - task: MSBuild@1
+      displayName: 'Build MobCAT.Repository.EntityFrameworkCore'
+      inputs:
+        solution: 'MobCAT.Repository.EntityFrameworkCore/MobCAT.Repository.EntityFrameworkCore.csproj'
+        configuration: '$(BuildConfiguration)'
+
+    - task: MSBuild@1
+      displayName: 'Build MobCAT.Repository.SQLiteNet'
+      inputs:
+        solution: 'MobCAT.Repository.SQLiteNet/MobCAT.Repository.SQLiteNet.csproj'
+        configuration: '$(BuildConfiguration)'
