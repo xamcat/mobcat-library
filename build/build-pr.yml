@@ -71,3 +71,44 @@ stages:
       inputs:
         solution: 'MobCAT.Repository.SQLiteNet/MobCAT.Repository.SQLiteNet.csproj'
         configuration: '$(BuildConfiguration)'
+
+- stage: RunTests
+  jobs:
+  - job: RunMobCATTests
+    displayName: Run MobCAT Tests
+    pool:
+      vmImage: 'windows-2019'
+      demands:
+      - MSBuild
+      - vstest
+
+    steps:
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core sdk'
+      inputs:
+        packageType: sdk
+        version: $(DotNetVersion)
+    - task: NuGetToolInstaller@1
+      displayName: Use Nuget $(NugetVersion)
+      inputs:
+        versionSpec: $(NugetVersion)
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet restore'
+      inputs:
+        restoreSolution: MobCAT.sln
+
+    - task: MSBuild@1
+      displayName: 'Build Tests'
+      inputs:
+        solution: 'MobCAT.Test/MobCAT.Test.csproj'
+        configuration: '$(BuildConfiguration)'
+
+    - task: VSTest@2
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\bin\$(BuildConfiguration)\netcoreapp3.0\MobCAT.Test.dll
+          !**\obj\**
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+        codeCoverageEnabled: true
