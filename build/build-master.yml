@@ -108,8 +108,9 @@ stages:
   jobs:
   - job: PackNugets
     pool:
-        name: Hosted VS2017
-        demans: msbuild
+        vmImage: 'windows-latest'
+        demands:
+        - MSBuild
 
     steps:
     - script: echo PackNuget the code!
@@ -170,6 +171,7 @@ stages:
         packagesToPack: 'MobCAT.Repository.SQLiteNet/MobCAT.Repository.SQLiteNet.csproj'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
+      enabled: false
 
     - task: NuGetCommand@2
       displayName: 'NuGet pack  MobCAT.Repository.EntityFrameworkCore'
@@ -178,6 +180,7 @@ stages:
         packagesToPack: 'MobCAT.Repository.EntityFrameworkCore/MobCAT.Repository.EntityFrameworkCore.csproj'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
+      enabled: false
 
     - task: CopyFiles@2
       inputs:
@@ -225,16 +228,17 @@ stages:
         artifactName: 'drop_nuget'
         downloadPath: '$(System.ArtifactsDirectory)'
 
-    # - task: GitHubRelease@0
-    #   inputs:
-    #     gitHubConnection: 'GitHub connection 6'
-    #     repositoryName: 'xamcat/mobcat-library'
-    #     action: 'create'
-    #     target: '$(Build.SourceVersion)'
-    #     tagSource: 'manual'
-    #     tag: 'v$(VERSION)'
-    #     title: 'v$(VERSION)'
-    #     assets: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
-    #     addChangeLog: false
-    #     isDraft: true
+    - task: GitHubRelease@0
+      inputs:
+        gitHubConnection: 'GitHub connection 6'
+        repositoryName: 'xamcat/mobcat-library'
+        action: 'create'
+        target: '$(Build.SourceVersion)'
+        tagSource: 'manual'
+        tag: 'v$(VERSION)'
+        title: 'v$(VERSION)'
+        assets: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
+        addChangeLog: false
+        isDraft: true
+      enabled: false
       
