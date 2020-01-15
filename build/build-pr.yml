@@ -112,4 +112,3 @@ stages:
           !**\obj\**
         searchFolder: '$(System.DefaultWorkingDirectory)'
         codeCoverageEnabled: true
-        runInParallel: true
