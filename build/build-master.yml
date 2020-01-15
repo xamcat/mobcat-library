@@ -198,7 +198,6 @@ stages:
         packagesToPack: 'MobCAT.Repository.SQLiteNet/MobCAT.Repository.SQLiteNet.csproj'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
-      enabled: false
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet pack  MobCAT.Repository.EntityFrameworkCore'
@@ -207,7 +206,6 @@ stages:
         packagesToPack: 'MobCAT.Repository.EntityFrameworkCore/MobCAT.Repository.EntityFrameworkCore.csproj'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
-      enabled: false
 
     - task: CopyFiles@2
       inputs:
