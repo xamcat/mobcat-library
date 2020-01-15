@@ -148,24 +148,24 @@ stages:
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
 
-    - task: NuGetCommand@2
-      displayName: 'NuGet pack  MobCAT.Android'
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet pack  MobCAT.Android'
       inputs:
         command: pack
         packagesToPack: 'MobCAT.Android/MobCAT.Android.csproj'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
 
-    - task: NuGetCommand@2
-      displayName: 'NuGet pack  MobCAT.iOS'
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet pack  MobCAT.iOS'
       inputs:
         command: pack
         packagesToPack: 'MobCAT.iOS/MobCAT.iOS.csproj'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
 
-    - task: NuGetCommand@2
-      displayName: 'NuGet pack  MobCAT.Repository.SQLiteNet'
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet pack  MobCAT.Repository.SQLiteNet'
       inputs:
         command: pack
         packagesToPack: 'MobCAT.Repository.SQLiteNet/MobCAT.Repository.SQLiteNet.csproj'
@@ -173,8 +173,8 @@ stages:
         versionEnvVar: VERSION
       enabled: false
 
-    - task: NuGetCommand@2
-      displayName: 'NuGet pack  MobCAT.Repository.EntityFrameworkCore'
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet pack  MobCAT.Repository.EntityFrameworkCore'
       inputs:
         command: pack
         packagesToPack: 'MobCAT.Repository.EntityFrameworkCore/MobCAT.Repository.EntityFrameworkCore.csproj'
