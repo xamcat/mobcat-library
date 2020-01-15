@@ -112,3 +112,4 @@ stages:
           !**\obj\**
         searchFolder: '$(System.DefaultWorkingDirectory)'
         codeCoverageEnabled: true
+        otherConsoleOptions: '/InIsolation'
