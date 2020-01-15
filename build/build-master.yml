@@ -175,21 +175,21 @@ stages:
     #     versioningScheme: byEnvVar
     #     versionEnvVar: VERSION
 
-    - task: NuGetCommand@2
-      displayName: 'NuGet pack  MobCAT.Droid'
-      inputs:
-        command: pack
-        packagesToPack: 'MobCAT.Droid/MobCAT.Droid.csproj'
-        versioningScheme: byEnvVar
-        versionEnvVar: VERSION
+    # - task: NuGetCommand@2
+    #   displayName: 'NuGet pack  MobCAT.Droid'
+    #   inputs:
+    #     command: pack
+    #     packagesToPack: 'MobCAT.Droid/MobCAT.Droid.csproj'
+    #     versioningScheme: byEnvVar
+    #     versionEnvVar: VERSION
 
-    - task: NuGetCommand@2
-      displayName: 'NuGet pack  MobCAT.iOS'
-      inputs:
-        command: pack
-        packagesToPack: 'MobCAT.iOS/MobCAT.iOS.csproj'
-        versioningScheme: byEnvVar
-        versionEnvVar: VERSION
+    # - task: NuGetCommand@2
+    #   displayName: 'NuGet pack  MobCAT.iOS'
+    #   inputs:
+    #     command: pack
+    #     packagesToPack: 'MobCAT.iOS/MobCAT.iOS.csproj'
+    #     versioningScheme: byEnvVar
+    #     versionEnvVar: VERSION
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet pack  MobCAT.Repository.SQLiteNet'
