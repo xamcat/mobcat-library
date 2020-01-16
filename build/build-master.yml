@@ -54,11 +54,21 @@ stages:
         solution: 'MobCAT.Android/MobCAT.Android.csproj'
         configuration: '$(BuildConfiguration)'
 
+    - task: CopyFiles@2
+      inputs:
+        Contents: 'MobCAT.Android/bin/Debug/MobCAT.*'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
     - task: MSBuild@1
       displayName: 'Build MobCAT.iOS'
       inputs:
         solution: 'MobCAT.iOS/MobCAT.iOS.csproj'
         configuration: '$(BuildConfiguration)'
+
+    - task: CopyFiles@2
+      inputs:
+        Contents: 'MobCAT.iOS/bin/Debug/MobCAT.*'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - task: MSBuild@1
       displayName: 'Build MobCAT.Repository.EntityFrameworkCore'
@@ -71,6 +81,12 @@ stages:
       inputs:
         solution: 'MobCAT.Repository.SQLiteNet/MobCAT.Repository.SQLiteNet.csproj'
         configuration: '$(BuildConfiguration)'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop_mac'
+        publishLocation: 'Container'
 
 - stage: RunTests
   jobs:
@@ -114,6 +130,17 @@ stages:
 
     steps:
     - script: echo PackNuget the code!
+
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        targetPath: '$(Pipeline.Workspace)'
+
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Pipeline.Workspace)/drop_mac'
+        Contents: '**'
+        TargetFolder: '$(Build.SourcesDirectory)'
 
     - task: UseDotNet@2
       displayName: 'Use .NET Core sdk'
@@ -159,37 +186,21 @@ stages:
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
 
-    # - task: DotNetCoreCLI@2
-    #   displayName: 'dotnet pack  MobCAT.Android'
-    #   inputs:
-    #     command: pack
-    #     packagesToPack: 'MobCAT.Android/MobCAT.Android.csproj'
-    #     versioningScheme: byEnvVar
-    #     versionEnvVar: VERSION
+    - task: NuGetCommand@2
+      displayName: 'NuGet pack  MobCAT.Droid'
+      inputs:
+        command: pack
+        packagesToPack: 'MobCAT.Droid/MobCAT.Droid.csproj'
+        versioningScheme: byEnvVar
+        versionEnvVar: VERSION
 
-    # - task: DotNetCoreCLI@2
-    #   displayName: 'dotnet pack  MobCAT.iOS'
-    #   inputs:
-    #     command: pack
-    #     packagesToPack: 'MobCAT.iOS/MobCAT.iOS.csproj'
-    #     versioningScheme: byEnvVar
-    #     versionEnvVar: VERSION
-
-    # - task: NuGetCommand@2
-    #   displayName: 'NuGet pack  MobCAT.Droid'
-    #   inputs:
-    #     command: pack
-    #     packagesToPack: 'MobCAT.Droid/MobCAT.Droid.csproj'
-    #     versioningScheme: byEnvVar
-    #     versionEnvVar: VERSION
-
-    # - task: NuGetCommand@2
-    #   displayName: 'NuGet pack  MobCAT.iOS'
-    #   inputs:
-    #     command: pack
-    #     packagesToPack: 'MobCAT.iOS/MobCAT.iOS.csproj'
-    #     versioningScheme: byEnvVar
-    #     versionEnvVar: VERSION
+    - task: NuGetCommand@2
+      displayName: 'NuGet pack  MobCAT.iOS'
+      inputs:
+        command: pack
+        packagesToPack: 'MobCAT.iOS/MobCAT.iOS.csproj'
+        versioningScheme: byEnvVar
+        versionEnvVar: VERSION
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet pack  MobCAT.Repository.SQLiteNet'
