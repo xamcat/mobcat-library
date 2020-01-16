@@ -56,7 +56,7 @@ stages:
 
     - task: CopyFiles@2
       inputs:
-        Contents: 'MobCAT.Android/bin/Debug/MobCAT.*'
+        Contents: 'MobCAT.Android/bin/Debug/*'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - task: MSBuild@1
@@ -67,7 +67,7 @@ stages:
 
     - task: CopyFiles@2
       inputs:
-        Contents: 'MobCAT.iOS/bin/Debug/MobCAT.*'
+        Contents: 'MobCAT.iOS/bin/Debug/*'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - task: MSBuild@1
