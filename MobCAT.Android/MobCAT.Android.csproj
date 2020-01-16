@@ -10,13 +10,16 @@
     <TemplateGuid>{9ef11e43-1701-4396-8835-8392d57abb70}</TemplateGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.MobCAT.Android</RootNamespace>
-    <AssemblyName>Microsoft.MobCAT.Android</AssemblyName>
+    <RootNamespace>MobCAT.Android</RootNamespace>
+    <AssemblyName>MobCAT.Android</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidUseAapt2>true</AndroidUseAapt2>
+    <Version>1.0.0</Version>
+    <Authors>xamcat</Authors>
+    <RepositoryUrl>https://github.com/xamcat/mobcat-library</RepositoryUrl>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

@@ -6,8 +6,11 @@
     <ProjectGuid>{074F8FC8-3F91-42BE-897C-4291D3A46187}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>Microsoft.MobCAT.iOS</RootNamespace>
-    <AssemblyName>Microsoft.MobCAT.iOS</AssemblyName>
+    <RootNamespace>MobCAT.iOS</RootNamespace>
+    <AssemblyName>MobCAT.iOS</AssemblyName>
+    <Version>1.0.0</Version>
+    <Authors>xamcat</Authors>
+    <RepositoryUrl>https://github.com/xamcat/mobcat-library</RepositoryUrl>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
