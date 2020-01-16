@@ -187,18 +187,18 @@ stages:
         versionEnvVar: VERSION
 
     - task: NuGetCommand@2
-      displayName: 'NuGet pack  MobCAT.Droid'
-      inputs:
-        command: pack
-        packagesToPack: 'MobCAT.Droid/MobCAT.Droid.csproj'
-        versioningScheme: byEnvVar
-        versionEnvVar: VERSION
-
-    - task: NuGetCommand@2
       displayName: 'NuGet pack  MobCAT.iOS'
       inputs:
         command: pack
         packagesToPack: 'MobCAT.iOS/MobCAT.iOS.csproj'
+        versioningScheme: byEnvVar
+        versionEnvVar: VERSION
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet pack  MobCAT.Android'
+      inputs:
+        command: pack
+        packagesToPack: 'MobCAT.Android/MobCAT.Android.csproj'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
 
