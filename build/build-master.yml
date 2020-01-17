@@ -277,6 +277,7 @@ stages:
         assets: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
         addChangeLog: false
         isDraft: true
+      enabled: false
 
     - task: NuGetCommand@2
       displayName: 'NuGet push'
