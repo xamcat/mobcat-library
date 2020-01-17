@@ -284,5 +284,5 @@ stages:
         command: push
         packagesToPush: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
         nuGetFeedType: external
-        publishFeedCredentials: GitHub
+        publishFeedCredentials: GitHubPackages
       
