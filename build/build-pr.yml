@@ -1,34 +1,40 @@
 stages:
-- stage: BuildWindows
+- stage: BuildLibrary
   jobs:
-  - job: BuildWindows
+  - job: BuildLibrary
     pool:
-        name: Hosted VS2017
-        demands: 
-        - msbuild
+        name: Hosted macOS
+        vmImage: 'macOS-latest'
+        demands:
+        - MSBuild
         - Xamarin.Android
+        - xcode
+        - Xamarin.iOS
+        - msbuild
 
     steps:
-
-    - task: NuGetToolInstaller@0
-      displayName: 'Use NuGet 4.3.1'
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core sdk'
       inputs:
-        versionSpec: 4.3.1
+        packageType: sdk
+        version: $(DotNetVersion)
+
+    - task: Bash@3
+      displayName: Set Mono Version $(MonoVersion)
+      inputs:
+        targetType: 'inline'
+        script: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)'
+    
+    - task: NuGetToolInstaller@1
+      displayName: Use Nuget $(NugetVersion)
+      inputs:
+        versionSpec: $(NugetVersion)
 
     - task: NuGetCommand@2
-      displayName: 'NuGet restore MobCAT'
+      displayName: 'NuGet restore MobCAT.sln'
       inputs:
-        restoreSolution: 'MobCAT/MobCAT.csproj'
-
-    - task: NuGetCommand@2
-      displayName: 'NuGet restore MobCAT.Forms'
-      inputs:
-        restoreSolution: 'MobCAT.Forms/MobCAT.Forms.csproj'
-
-    - task: NuGetCommand@2
-      displayName: 'NuGet restore MobCAT.Android'
-      inputs:
-        restoreSolution: 'MobCAT.Android/MobCAT.Android.csproj'
+        command: 'restore'
+        restoreSolution: 'MobCAT.sln'
 
     - task: MSBuild@1
       displayName: 'Build MobCAT'
@@ -48,41 +54,52 @@ stages:
         solution: 'MobCAT.Android/MobCAT.Android.csproj'
         configuration: '$(BuildConfiguration)'
 
-- stage: BuildiOS
-  jobs:
-  - job: BuildiOS
-    pool: 
-        name: Hosted macOS
-        vmImage: 'macOS 10.14'
-        demands:
-        - MSBuild
-        - Xamarin.iOS
-
-    steps:
-
-    - task: NuGetToolInstaller@0
-      displayName: 'Use NuGet 4.3.1'
-      inputs:
-        versionSpec: 4.3.1
-
-    - task: NuGetCommand@2
-      displayName: 'NuGet restore MobCAT'
-      inputs:
-        restoreSolution: 'MobCAT/MobCAT.csproj'
-
-    - task: NuGetCommand@2
-      displayName: 'NuGet restore MobCAT.iOS'
-      inputs:
-        restoreSolution: 'MobCAT.iOS/MobCAT.iOS.csproj'
-
     - task: MSBuild@1
-      displayName: 'Build MobCAT'
-      inputs:
-        solution: 'MobCAT/MobCAT.csproj'
-        configuration: '$(BuildConfiguration)'
-    
-    - task: MSBuild@1
-      displayName: 'Build MobCAT'
+      displayName: 'Build MobCAT.iOS'
       inputs:
         solution: 'MobCAT.iOS/MobCAT.iOS.csproj'
         configuration: '$(BuildConfiguration)'
+
+    - task: MSBuild@1
+      displayName: 'Build MobCAT.Repository.EntityFrameworkCore'
+      inputs:
+        solution: 'MobCAT.Repository.EntityFrameworkCore/MobCAT.Repository.EntityFrameworkCore.csproj'
+        configuration: '$(BuildConfiguration)'
+
+    - task: MSBuild@1
+      displayName: 'Build MobCAT.Repository.SQLiteNet'
+      inputs:
+        solution: 'MobCAT.Repository.SQLiteNet/MobCAT.Repository.SQLiteNet.csproj'
+        configuration: '$(BuildConfiguration)'
+
+- stage: RunTests
+  jobs:
+  - job: RunMobCATTests
+    displayName: Run MobCAT Tests
+    pool:
+      vmImage: 'windows-2019'
+      demands:
+      - MSBuild
+      - vstest
+
+    steps:
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core sdk'
+      inputs:
+        packageType: sdk
+        version: $(DotNetVersion)
+    - task: NuGetToolInstaller@1
+      displayName: Use Nuget $(NugetVersion)
+      inputs:
+        versionSpec: $(NugetVersion)
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet restore'
+      inputs:
+        restoreSolution: MobCAT.sln
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: test
+        projects: 'MobCAT.Test/MobCAT.Test.csproj'
+        arguments: '--configuration $(BuildConfiguration)'

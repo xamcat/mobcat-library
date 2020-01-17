@@ -54,11 +54,21 @@ stages:
         solution: 'MobCAT.Android/MobCAT.Android.csproj'
         configuration: '$(BuildConfiguration)'
 
+    - task: CopyFiles@2
+      inputs:
+        Contents: 'MobCAT.Android/bin/Release/*'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
     - task: MSBuild@1
       displayName: 'Build MobCAT.iOS'
       inputs:
         solution: 'MobCAT.iOS/MobCAT.iOS.csproj'
         configuration: '$(BuildConfiguration)'
+
+    - task: CopyFiles@2
+      inputs:
+        Contents: 'MobCAT.iOS/bin/Release/*'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - task: MSBuild@1
       displayName: 'Build MobCAT.Repository.EntityFrameworkCore'
@@ -71,6 +81,12 @@ stages:
       inputs:
         solution: 'MobCAT.Repository.SQLiteNet/MobCAT.Repository.SQLiteNet.csproj'
         configuration: '$(BuildConfiguration)'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop_mac'
+        publishLocation: 'Container'
 
 - stage: RunTests
   jobs:
@@ -115,11 +131,27 @@ stages:
     steps:
     - script: echo PackNuget the code!
 
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        targetPath: '$(Pipeline.Workspace)'
+
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Pipeline.Workspace)/drop_mac'
+        Contents: '**'
+        TargetFolder: '$(Build.SourcesDirectory)'
+
     - task: UseDotNet@2
       displayName: 'Use .NET Core sdk'
       inputs:
         packageType: sdk
         version: $(DotNetVersion)
+
+    - task: NuGetToolInstaller@1
+      displayName: Use Nuget $(NugetVersion)
+      inputs:
+        versionSpec: $(NugetVersion)
 
     - task: Bash@3
       displayName: 'Version Script'
@@ -154,19 +186,19 @@ stages:
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
 
-    - task: DotNetCoreCLI@2
-      displayName: 'dotnet pack  MobCAT.Android'
-      inputs:
-        command: pack
-        packagesToPack: 'MobCAT.Android/MobCAT.Android.csproj'
-        versioningScheme: byEnvVar
-        versionEnvVar: VERSION
-
-    - task: DotNetCoreCLI@2
-      displayName: 'dotnet pack  MobCAT.iOS'
+    - task: NuGetCommand@2
+      displayName: 'NuGet pack  MobCAT.iOS'
       inputs:
         command: pack
         packagesToPack: 'MobCAT.iOS/MobCAT.iOS.csproj'
+        versioningScheme: byEnvVar
+        versionEnvVar: VERSION
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet pack  MobCAT.Android'
+      inputs:
+        command: pack
+        packagesToPack: 'MobCAT.Android/MobCAT.Android.csproj'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
 
@@ -177,7 +209,6 @@ stages:
         packagesToPack: 'MobCAT.Repository.SQLiteNet/MobCAT.Repository.SQLiteNet.csproj'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
-      enabled: false
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet pack  MobCAT.Repository.EntityFrameworkCore'
@@ -186,7 +217,6 @@ stages:
         packagesToPack: 'MobCAT.Repository.EntityFrameworkCore/MobCAT.Repository.EntityFrameworkCore.csproj'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
-      enabled: false
 
     - task: CopyFiles@2
       inputs:
@@ -204,8 +234,9 @@ stages:
   jobs:
   - job: PublishNuget
     pool:
-        name: Hosted VS2017
-        demans: msbuild
+        vmImage: 'windows-latest'
+        demands:
+        - MSBuild
 
     steps:
     - script: echo Publish Nuget Github the code!
@@ -246,5 +277,12 @@ stages:
         assets: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
         addChangeLog: false
         isDraft: true
-      enabled: false
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet push'
+      inputs:
+        command: push
+        packagesToPush: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
+        nuGetFeedType: external
+        publishFeedCredentials: GitHub
       

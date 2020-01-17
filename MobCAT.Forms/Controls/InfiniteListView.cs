@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace MobCAT.Forms.Controls
+namespace Microsoft.MobCAT.Forms.Controls
 {
     public class InfiniteListView : ListView
     {

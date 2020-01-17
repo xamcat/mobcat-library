@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Microsoft.MobCAT</RootNamespace>
+    <Version>1.0.0</Version>
+    <Authors>xamcat</Authors>
+    <RepositoryUrl>https://github.com/xamcat/mobcat-library</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,5 +18,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Repository\" />
+    <Folder Include="Repository\Abstractions\" />
+    <Folder Include="Repository\InMemory\" />
   </ItemGroup>
 </Project>
