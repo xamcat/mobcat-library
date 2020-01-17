@@ -277,6 +277,7 @@ stages:
         assets: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
         addChangeLog: false
         isDraft: true
+      enabled: false
 
     - task: NuGetCommand@2
       displayName: 'NuGet push'
@@ -284,5 +285,4 @@ stages:
         command: push
         packagesToPush: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
         nuGetFeedType: external
-        publishFeedCredentials: GitHub
-      
+        publishFeedCredentials: GitHubPackageRelease
