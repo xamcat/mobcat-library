@@ -284,5 +284,4 @@ stages:
         packagesToPush: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
         nuGetFeedType: external
         publishFeedCredentials: GitHub
-      enabled: false
       
