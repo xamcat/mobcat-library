@@ -9,6 +9,8 @@ namespace Microsoft.MobCAT.Repository.SQLiteNet.Test.Android
     [Activity(Label = "SQLiteNet-Tests", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        const string DatastoreName = "sqlitenet_testdb";
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -29,7 +31,7 @@ namespace Microsoft.MobCAT.Repository.SQLiteNet.Test.Android
             };
 
             var storageFilepath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            Microsoft.MobCAT.Repository.Test.Bootstrap.Begin((datastoreName) => new SQLiteNetSampleRepositoryContext(Guard.NullOrWhitespace(storageFilepath), datastoreName));
+            Microsoft.MobCAT.Repository.Test.Bootstrap.BeginWithDatastore((datastoreName) => new SQLiteNetSampleRepositoryContext(Guard.NullOrWhitespace(storageFilepath), datastoreName));
 
             LoadApplication(nunit);
         }

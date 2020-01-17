@@ -23,7 +23,7 @@ namespace Microsoft.MobCAT.Repository.SQLiteNet.Test.iOS
             };
 
             var storageFilepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "..", "Library");
-            Microsoft.MobCAT.Repository.Test.Bootstrap.Begin((datastoreName) => new SQLiteNetSampleRepositoryContext(Guard.NullOrWhitespace(storageFilepath), datastoreName));
+            Microsoft.MobCAT.Repository.Test.Bootstrap.BeginWithDatastore((datastoreName) => new SQLiteNetSampleRepositoryContext(Guard.NullOrWhitespace(storageFilepath), datastoreName));
 
             LoadApplication(nunit);
 
