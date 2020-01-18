@@ -190,7 +190,7 @@ stages:
       displayName: 'NuGet pack  MobCAT.iOS'
       inputs:
         command: pack
-        packagesToPack: 'nugetConfig/MobCAT.iOS.nuspec'
+        packagesToPack: 'MobCAT.iOS.nuspec'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
 
@@ -198,7 +198,7 @@ stages:
       displayName: 'NuGet pack  MobCAT.Android'
       inputs:
         command: pack
-        packagesToPack: 'nugetConfig/MobCAT.Android.nuspec'
+        packagesToPack: 'MobCAT.Android.nuspec'
         versioningScheme: byEnvVar
         versionEnvVar: VERSION
 
