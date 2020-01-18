@@ -7,20 +7,17 @@
     <owners>xamcat</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Package Description</description>
-    <repository url="https://github.com/xamcat/mobcat-library" />
+    <repository type="git" url="https://github.com/xamcat/mobcat-library"/>
     <dependencies>
-      <group targetFramework=".NETStandard2.0">
         <dependency id="Polly" version="7.2.0" />
         <dependency id="Newtonsoft.Json" version="12.0.3" />
         <dependency id="Xamarin.Essentials" version="1.3.1" />
-      </group>
-      <group targetFramework="Xamarin.iOS1.0" />
     </dependencies>
-    <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Core" targetFramework="Xamarin.iOS1.0" />
-      <frameworkAssembly assemblyName="System" targetFramework="Xamarin.iOS1.0" />
-      <frameworkAssembly assemblyName="System.Xml" targetFramework="Xamarin.iOS1.0" />
-      <frameworkAssembly assemblyName="Xamarin.iOS" targetFramework="Xamarin.iOS1.0" />
-    </frameworkAssemblies>
   </metadata>
+  <files>
+        <file src="MobCAT.iOS\bin\Release\MobCAT.dll" target="lib\Xamarin.iOS10\MobCAT.dll" />
+        <file src="MobCAT.iOS\bin\Release\MobCAT.pdb" target="lib\Xamarin.iOS10\MobCAT.pdb" />
+        <file src="MobCAT.iOS\bin\Release\MobCAT.iOS.dll" target="lib\Xamarin.iOS10\MobCAT.iOS.dll" />
+        <file src="MobCAT.iOS\bin\Release\MobCAT.iOS.pdb" target="lib\Xamarin.iOS10\MobCAT.iOS.pdb" />
+   </files>
 </package>
