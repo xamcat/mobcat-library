@@ -29,7 +29,7 @@ namespace Microsoft.MobCAT.Repository.EntityFrameworkCore.Test.Android
             };
 
             var storageFilepath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            Microsoft.MobCAT.Repository.Test.Bootstrap.Begin((datastoreName) => new EFCoreSampleRepositoryContext(Guard.NullOrWhitespace(storageFilepath), datastoreName));
+            Microsoft.MobCAT.Repository.Test.Bootstrap.BeginWithDatastore((datastoreName) => new EFCoreSampleRepositoryContext(Guard.NullOrWhitespace(storageFilepath), datastoreName));
 
             LoadApplication(nunit);
         }

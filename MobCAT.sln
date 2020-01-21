@@ -247,6 +247,7 @@ Global
 		{8B067949-9739-4FD2-A8D6-B1EF359F671C}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{D024A06B-1F3B-4A45-8C0D-87A507DC8163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D024A06B-1F3B-4A45-8C0D-87A507DC8163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D024A06B-1F3B-4A45-8C0D-87A507DC8163}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{D024A06B-1F3B-4A45-8C0D-87A507DC8163}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{D024A06B-1F3B-4A45-8C0D-87A507DC8163}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{D024A06B-1F3B-4A45-8C0D-87A507DC8163}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
