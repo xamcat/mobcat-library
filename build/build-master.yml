@@ -267,7 +267,7 @@ stages:
 
     - task: GitHubRelease@0
       inputs:
-        gitHubConnection: 'GitHub connection 6'
+        gitHubConnection: 'XamCAT GitHub Connection'
         repositoryName: 'xamcat/mobcat-library'
         action: 'create'
         target: '$(Build.SourceVersion)'
