@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using SQLite;
 using Microsoft.MobCAT.Extensions;
+using System.Linq;
 
 namespace Microsoft.MobCAT.Repository.SQLiteNet
 {
@@ -12,7 +13,7 @@ namespace Microsoft.MobCAT.Repository.SQLiteNet
         public BaseSQLiteNetRepository(SQLiteAsyncConnection connection)
         {
             Connection = Guard.Null(connection);
-            InitializeAsync(); 
+            InitializeAsync();
         }
 
         public SQLiteAsyncConnection Connection { get; private set; }
@@ -25,6 +26,9 @@ namespace Microsoft.MobCAT.Repository.SQLiteNet
 
         protected override async Task<IEnumerable<T2>> OnExecuteTableQueryAsync(Expression<Func<T2, bool>> expression = null)
             => (await Connection.Table<T2>().Where(expression).ToListAsync()) as IEnumerable<T2>;
+
+        protected override async Task<IEnumerable<IGrouping<TGroupKey, T2>>> OnExecuteTableQueryAsync<TGroupKey>(Expression<Func<T2, bool>> expression = null, Expression<Func<T2, TGroupKey>> groupingExpression = null)
+            => (await OnExecuteTableQueryAsync(expression)).GroupBy(groupingExpression.Compile());
 
         protected override Task<T2> OnExecuteTableQueryScalarAsync(Expression<Func<T2, bool>> expression = null)
             => Connection.Table<T2>().FirstOrDefaultAsync(expression);
