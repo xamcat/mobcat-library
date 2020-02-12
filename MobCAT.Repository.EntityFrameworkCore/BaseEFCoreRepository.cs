@@ -48,6 +48,16 @@ namespace Microsoft.MobCAT.Repository.EntityFrameworkCore
             return results;
         }
 
+        protected override async Task<IEnumerable<IGrouping<TGroupKey, T2>>> OnExecuteTableQueryAsync<TGroupKey>(Expression<Func<T2, bool>> expression = null, Expression<Func<T2, TGroupKey>> groupingExpression = null)
+        {
+            IEnumerable<IGrouping<TGroupKey,T2>> results = default;
+
+            using (var context = GetContext())
+                results = await context.Items.Where(expression).GroupBy(groupingExpression).ToListAsync().ConfigureAwait(false);
+
+            return results;
+        }
+
         protected override async Task<T2> OnExecuteTableQueryScalarAsync(Expression<Func<T2, bool>> expression = null)
         {
             T2 result = null;

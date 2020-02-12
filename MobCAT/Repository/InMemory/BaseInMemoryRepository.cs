@@ -35,6 +35,9 @@ namespace Microsoft.MobCAT.Repository.InMemory
         protected override Task<IEnumerable<T2>> OnExecuteTableQueryAsync(Expression<Func<T2, bool>> expression = null)
             => Task.Run(() => Items.Select(i => i.Value).Where(expression.Compile()).ToList() as IEnumerable<T2>);
 
+        protected override Task<IEnumerable<IGrouping<TGroupKey, T2>>> OnExecuteTableQueryAsync<TGroupKey>(Expression<Func<T2, bool>> expression = null, Expression<Func<T2, TGroupKey>> groupingExpression = null)
+            => Task.Run(() => Items.Select(i => i.Value).Where(expression.Compile()).GroupBy<T2, TGroupKey>(groupingExpression.Compile()));
+
         protected override Task<T2> OnExecuteTableQueryScalarAsync(Expression<Func<T2, bool>> expression = null)
             => Task.Run(() => Items.Select(i => i.Value).FirstOrDefault(expression.Compile()));
 
