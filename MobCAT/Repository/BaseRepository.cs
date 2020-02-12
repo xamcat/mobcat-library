@@ -16,6 +16,8 @@ namespace Microsoft.MobCAT.Repository
         protected virtual T ToModelType(T2 repositoryType) => default(T);
         protected virtual T2 ToRepositoryType(T modelType) => default(T2);
         protected virtual Task<IEnumerable<T2>> OnExecuteTableQueryAsync(Expression<Func<T2, bool>> expression = null) => throw new NotImplementedException();
+        protected virtual Task<IEnumerable<IGrouping<TGroupKey, T2>>> OnExecuteTableQueryAsync<TGroupKey>
+            (Expression<Func<T2, bool>> expression = null, Expression<Func<T2, TGroupKey>> groupingExpression = null) => throw new NotImplementedException();
         protected virtual Task<T2> OnExecuteTableQueryScalarAsync(Expression<Func<T2, bool>> expression = null) => throw new NotImplementedException();
         protected virtual Task OnInitializeAsync() => throw new NotImplementedException();
         protected virtual Task OnDropTableAsync() => throw new NotImplementedException();
@@ -47,6 +49,9 @@ namespace Microsoft.MobCAT.Repository
 
         protected Task<IEnumerable<T2>> ExecuteTableQueryAsync(Expression<Func<T2, bool>> expression = null)
             => OnExecuteTableQueryAsync(expression);
+
+        protected Task<IEnumerable<IGrouping<TGroupKey, T2>>> ExecuteTableQueryAsync<TGroupKey>(Expression<Func<T2, bool>> expression = null, Expression<Func<T2, TGroupKey>> groupingExpression = null)
+            => OnExecuteTableQueryAsync(expression, groupingExpression);
 
         protected Task<T2> ExecuteTableQueryScalarAsync(Expression<Func<T2, bool>> expression = null)
             => OnExecuteTableQueryScalarAsync(expression);

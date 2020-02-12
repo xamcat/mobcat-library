@@ -21,7 +21,7 @@ namespace Microsoft.MobCAT.Repositories.InMemory.Test.iOS
                 }
             };
 
-            Microsoft.MobCAT.Repository.Test.Bootstrap.Begin((datastoreName) => new InMemorySampleRepositoryContext());
+            Microsoft.MobCAT.Repository.Test.Bootstrap.Begin(() => new InMemorySampleRepositoryContext());
 
             LoadApplication(nunit);
 
