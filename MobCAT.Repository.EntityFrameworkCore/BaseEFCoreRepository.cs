@@ -29,6 +29,7 @@ namespace Microsoft.MobCAT.Repository.EntityFrameworkCore
                 using (var context = GetContext())
                 {
                     var databaseCreator = context.GetService<IRelationalDatabaseCreator>();
+                    await databaseCreator.EnsureCreatedAsync().ConfigureAwait(false);
                     await databaseCreator.CreateTablesAsync().ConfigureAwait(false);
                 }
             }
