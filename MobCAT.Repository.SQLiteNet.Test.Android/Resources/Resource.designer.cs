@@ -14255,8 +14255,11 @@ namespace Microsoft.MobCAT.Repository.SQLiteNet.Test.Android
 			// aapt resource value: 1
 			public const int TextAppearance_android_typeface = 1;
 			
+			// aapt resource value: 11
+			public const int TextAppearance_fontFamily = 11;
+			
 			// aapt resource value: 12
-			public const int TextAppearance_fontFamily = 12;
+			public const int TextAppearance_textAllCaps = 12;
 			
 			// aapt resource value: 13
 			public const int TextAppearance_fontVariationSettings = 13;

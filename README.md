@@ -6,7 +6,7 @@ MobCAT is a toolbox created by our team to highlight and support the application
 
 These projects can provide a foundation or light-weight starting point which can be built upon when adopted as part of your Xamarin solutions. 
 
-The projects themselves are .NET Standard portable projects. The intent is that the source is cloned/forked and incorporated into your solutions directly through project reference or via a private NuGet feed.   
+The projects themselves are .NET Standard portable projects. The intent is that the source is cloned/forked and incorporated into your solutions directly through project reference or via a private NuGet feed. Please refer to the [Getting Started Guide](https://github.com/xamcat/mobcat-library/blob/master/docs/mobcat-gettingstarted.md) for more information.
 
 Please take a look at the [sample projects](https://github.com/xamcat/mobcat-samples) to get a better understanding of their usage.
 

@@ -267,7 +267,7 @@ stages:
 
     - task: GitHubRelease@0
       inputs:
-        gitHubConnection: 'GitHub connection 6'
+        gitHubConnection: 'XamCAT GitHub Connection'
         repositoryName: 'xamcat/mobcat-library'
         action: 'create'
         target: '$(Build.SourceVersion)'
@@ -276,8 +276,6 @@ stages:
         title: 'v$(VERSION)'
         assets: '$(System.ArtifactsDirectory)/**/drop_nuget/*.nupkg'
         addChangeLog: false
-        isDraft: true
-      enabled: false
 
     - task: NuGetCommand@2
       displayName: 'NuGet push'

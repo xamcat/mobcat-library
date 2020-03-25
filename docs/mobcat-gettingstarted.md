@@ -11,8 +11,8 @@ The prebuilt packages can be downloaded from the **MobCAT** repository **[Packag
 
 - [MobCAT](https://github.com/xamcat/mobcat-library/packages/14497)
 - [MobCAT.Forms](https://github.com/xamcat/mobcat-library/packages/14499)
-- [MobCAT.Repositories.EntityFrameworkCore]()
-- [MobCAT.Repositories.SqliteNet]()
+- [MobCAT.Repositories.EntityFrameworkCore](https://github.com/xamcat/mobcat-library/packages/108212)
+- [MobCAT.Repositories.SqliteNet](https://github.com/xamcat/mobcat-library/packages/108213)
 
 These packages can then be added / published to your local / private **NuGet** feed then subsequently consumed by your projects like any other **NuGet** package.
 
@@ -37,9 +37,9 @@ For local package feeds, add its pathname e.g. *\\\\myfolder\\packages* to the l
 For **NuGet** feeds hosted in **Azure Dev Ops**, [get your feed's NuGet package source information](https://docs.microsoft.com/en-us/azure/devops/artifacts/nuget/consume?view=azure-devops#get-your-feeds-nuget-package-source-information) using the **Connect to Feed** link on the respective **Artefacts** page. The resulting endpoint should indicatively be: *https://pkgs.dev.azure/OWNER/_packaging/PROJECT/nuget/v3/index.json* where *OWNER* is the user or organization account that owns the project.
 
 **GitHub Packages Endpoint:**  
-For **NuGet** feeds hosted in **GitHub Packages**, you should follow the steps provided in the [authenticating to GitHub Packages](https://help.github.com/en/github/managing-packages-with-github-packages/configuring-dotnet-cli-for-use-with-github-packages#authenticating-to-github-packages) documentation. The resulting endpoint should indicatively be: *https://nuget.pkg.github.com/OWNER/index.json* where *OWNER* is the name of the user or organization account that owns the project.
+For **NuGet** feeds hosted in **GitHub Packages**, you should follow the steps provided in the [authenticating to GitHub Packages](https://help.github.com/en/github/managing-packages-with-github-packages/configuring-dotnet-cli-for-use-with-github-packages#authenticating-to-github-packages) documentation. The resulting endpoint should indicatively be: *https://nuget.pkg.github.com/OWNER/index.json* where *OWNER* is the name of the user or organization account that owns the project. For these packages, the url will be : *https://nuget.pkg.github.com/xamcat/index.json* . Following the steps in the GitHub Packages authentication docs, be sure to use your GitHub _USERNAME_ and the _PAT_ generated for that User Account has the appropriate access granted. 
 
-One you have the appropriate endpoint, and completed any steps that are specific to the **NuGet package source**, you can follow the steps in the [Visual Studio NuGet Quickstart document](https://docs.microsoft.com/en-gb/azure/devops/artifacts/get-started-nuget?view=azure-devops&tabs=new-nav#consume-your-package-in-visual-studio) to add it as a package source in **Visual Studio**. 
+One you have the appropriate endpoint, and completed any steps that are specific to the **NuGet package source**, you can follow the steps in the [Visual Studio NuGet Quickstart document](https://docs.microsoft.com/en-gb/azure/devops/artifacts/get-started-nuget?view=azure-devops&tabs=new-nav#consume-your-package-in-visual-studio) to add it as a package source in **Visual Studio**. The Username and PAT combination from above can be used for this step. 
 
 ## Project Reference
 You can incorporate the **MobCAT** libraries into your solutions via project reference. However, this is not recommended in most cases unless you intend to maintain the source code as part of that solution moving forward. 
