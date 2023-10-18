@@ -1,75 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{80F4745E-16DE-4623-A871-61435E690861}</ProjectGuid>
-    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TemplateGuid>{9ef11e43-1701-4396-8835-8392d57abb70}</TemplateGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworks>net7.0;net7.0-android</TargetFrameworks>
     <RootNamespace>Microsoft.MobCAT.Android</RootNamespace>
     <AssemblyName>MobCAT.Android</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
-    <AndroidUseAapt2>true</AndroidUseAapt2>
     <Version>1.0.0</Version>
     <Authors>xamcat</Authors>
     <RepositoryUrl>https://github.com/xamcat/mobcat-library</RepositoryUrl>
+    <OutputType>Library</OutputType>
+    <UseMaui>true</UseMaui>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>portable</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>portable</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Mono.Android" />
-    <Reference Include="mscorlib" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml" />
+
+ <ItemGroup>
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.5" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="IApplication.cs" />
-    <Compile Include="MainApplication.cs" />
-    <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AlertService.cs" />
-    <Compile Include="Services\BiometricAuthenticationService.cs" />
-    <Compile Include="Services\ConnectivityChangeBroadcastReceiver.cs" />
-    <Compile Include="Services\ConnectivityService.cs" />
-    <Compile Include="Services\CryptoObjectHelper.cs" />
-    <Compile Include="Services\FingerprintManagerFragment.cs" />
-    <Compile Include="Services\PreferencesService.cs" />
-    <Compile Include="Services\ThreadService.cs" />
-    <Compile Include="Views\InputDialogFragment.cs" />
-    <Compile Include="Views\ProgressDialogFragment.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AboutResources.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.3" />
-  </ItemGroup>
+  
   <ItemGroup>
     <AndroidResource Include="Resources\values\strings.xml" />
   </ItemGroup>
@@ -91,18 +40,9 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_fp_40px.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MobCAT\MobCAT.csproj">
-      <Project>{3BBD87D3-6E79-4A92-AA9C-2E540846C48F}</Project>
-      <Name>MobCAT</Name>
-    </ProjectReference>
+
+   <ItemGroup>
+    <ProjectReference Include="..\MobCAT\MobCAT.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

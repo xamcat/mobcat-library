@@ -1,19 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFrameworks>net7.0</TargetFrameworks>
     <RootNamespace>Microsoft.MobCAT.Repository.SQLiteNet</RootNamespace>
     <Version>1.0.0</Version>
     <Authors>xamcat</Authors>
     <RepositoryUrl>https://github.com/xamcat/mobcat-library</RepositoryUrl>
+    <OutputType>Library</OutputType>
+		<ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\MobCAT\MobCAT.csproj" />
   </ItemGroup>
     
   <ItemGroup>
-    <PackageReference Include="sqlite-net-pcl" Version="1.6.292" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.141-beta" />
   </ItemGroup>
-    
+
 </Project>
