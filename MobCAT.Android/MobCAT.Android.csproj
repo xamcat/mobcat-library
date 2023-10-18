@@ -63,6 +63,7 @@
     <Compile Include="Services\ThreadService.cs" />
     <Compile Include="Views\InputDialogFragment.cs" />
     <Compile Include="Views\ProgressDialogFragment.cs" />
+    <Compile Include="Services\ProgressService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
