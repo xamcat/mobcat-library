@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Microsoft.MobCAT.Services;
+using Microsoft.Maui.Storage;
 
 namespace Microsoft.MobCAT.Forms.Services
 {
@@ -11,13 +12,13 @@ namespace Microsoft.MobCAT.Forms.Services
     
         public FileSystemService()
         {
-            var applicationSupportPath = Xamarin.Essentials.FileSystem.AppDataDirectory;
+            var applicationSupportPath = FileSystem.AppDataDirectory;
 
             Logger.Debug($"Application Support Path: {applicationSupportPath}");
 
             _documentStorage = Path.Combine(applicationSupportPath, "Documents");
             _settingsStorage = Path.Combine(applicationSupportPath, "Settings");
-            _tempStorage = Xamarin.Essentials.FileSystem.CacheDirectory;
+            _tempStorage = FileSystem.CacheDirectory;
 
             if (!Directory.Exists(_documentStorage))
                 Directory.CreateDirectory(_documentStorage);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.MobCAT.MVVM.Abstractions;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
 namespace Microsoft.MobCAT.Forms.Services
 {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.MobCAT.Forms.Services.Abstractions;
 using Microsoft.MobCAT.MVVM;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
 
 namespace Microsoft.MobCAT.Forms.Pages
 {

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Forms;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
 using Microsoft.MobCAT.MVVM;
 using Microsoft.MobCAT.MVVM.Abstractions;
 using Microsoft.MobCAT.Forms.Services.Abstractions;
@@ -17,7 +18,7 @@ namespace Microsoft.MobCAT.Forms.Services
             get
             {
                 var tabController = Application.Current.MainPage as TabbedPage;
-                var masterController = Application.Current.MainPage as MasterDetailPage;
+                var masterController = Application.Current.MainPage as FlyoutPage;
 
                 // First check to see if we're on a tabbed page, then master detail, finally go to overall fallback
                 return tabController?.CurrentPage?.Navigation ??
@@ -38,13 +39,13 @@ namespace Microsoft.MobCAT.Forms.Services
         {
             get
             {
-                var masterController = Application.Current.MainPage as MasterDetailPage;
+                var masterController = Application.Current.MainPage as FlyoutPage;
 
                 return masterController?.Detail ?? Application.Current.MainPage;
             }
             set
             {
-                var masterController = Application.Current.MainPage as MasterDetailPage;
+                var masterController = Application.Current.MainPage as FlyoutPage;
 
                 if (masterController != null)
                 {

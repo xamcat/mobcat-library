@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net7.0-android;net7.0-ios</TargetFrameworks>
+    <TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
      <RootNamespace>Microsoft.MobCAT.Forms</RootNamespace>
     <Version>1.0.0</Version>
     <Authors>xamcat</Authors>
     <RepositoryUrl>https://github.com/xamcat/mobcat-library</RepositoryUrl>
     <OutputType>Library</OutputType>
     <UseMaui>true</UseMaui>
+    <UseMauiEssentials>true</UseMauiEssentials>
 		<ImplicitUsings>enable</ImplicitUsings>
 
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
@@ -15,27 +16,11 @@
 
   </PropertyGroup>
 
-   <ItemGroup>
-    <ProjectReference Include="..\MobCAT\MobCAT.csproj" />
-  </ItemGroup>
   
-</Project>
-
-
-
-<!-- <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Microsoft.MobCAT.Forms</RootNamespace>
-    <Version>1.0.0</Version>
-    <Authors>xamcat</Authors>
-    <RepositoryUrl>https://github.com/xamcat/mobcat-library</RepositoryUrl>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+    <CreatePackage>false</CreatePackage>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.5.0.396" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.1" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MobCAT\MobCAT.csproj" />
   </ItemGroup>
-</Project> -->
+</Project>

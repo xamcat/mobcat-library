@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
 namespace Microsoft.MobCAT.Forms.Controls
 {
@@ -125,7 +125,7 @@ namespace Microsoft.MobCAT.Forms.Controls
         {
             Span span = new Span
             {
-                TextColor = Color.Blue,
+                TextColor = Colors.Blue,
                 TextDecorations = TextDecorations.Underline,
                 Text = match.Groups.Count >= 5 ? match.Groups[2].Value : match.Value
             };

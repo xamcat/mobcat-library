@@ -8,6 +8,7 @@
     <RepositoryUrl>https://github.com/xamcat/mobcat-library</RepositoryUrl>
     <OutputType>Library</OutputType>
 		<ImplicitUsings>enable</ImplicitUsings>
+        <UseMauiEssentials>true</UseMauiEssentials>
   </PropertyGroup>
   
   <ItemGroup>

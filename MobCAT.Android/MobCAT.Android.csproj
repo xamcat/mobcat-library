@@ -9,15 +9,16 @@
     <RepositoryUrl>https://github.com/xamcat/mobcat-library</RepositoryUrl>
     <OutputType>Library</OutputType>
     <UseMaui>true</UseMaui>
+    <UseMauiEssentials>true</UseMauiEssentials>
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 
   </PropertyGroup>
 
- <ItemGroup>
+<!-- <ItemGroup>
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.5" />
-  </ItemGroup>
+  </ItemGroup>-->
   
   <ItemGroup>
     <AndroidResource Include="Resources\values\strings.xml" />
